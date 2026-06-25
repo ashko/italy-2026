@@ -351,6 +351,14 @@
       navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
       if (window.caches) caches.keys().then(ks => ks.forEach(k => caches.delete(k)));
     } else {
+      // Auto-reload once when a new service worker takes control (only on updates,
+      // not first install) so users never get stuck on a half-updated version.
+      if (navigator.serviceWorker.controller) {
+        let reloaded = false;
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          if (reloaded) return; reloaded = true; location.reload();
+        });
+      }
       window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
     }
   }
