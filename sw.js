@@ -1,5 +1,5 @@
 /* Service worker — offline-first for איטליה 2026 */
-const CACHE = "italy26-v1";
+const CACHE = "italy26-v2";
 const ASSETS = [
   "./",
   "./index.html",
