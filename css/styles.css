@@ -421,6 +421,45 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 .check .box svg { width: 14px; height: 14px; color: #fff; opacity: 0; }
 .check li.done .box svg { opacity: 1; }
 
+/* ---------- Recommendations ---------- */
+.recreg-row { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 10px; margin: 0 -2px; scrollbar-width: none; }
+.recreg-row::-webkit-scrollbar { display: none; }
+.recreg {
+  flex: 0 0 auto; padding: 9px 16px; border-radius: var(--r-pill); font-weight: 800; font-size: 13.5px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--sh-1); color: var(--ink-soft); transition: transform .1s;
+}
+.recreg:active { transform: scale(.95); }
+.recreg.is-active { background: var(--rc); border-color: var(--rc); color: #fff; box-shadow: 0 6px 16px color-mix(in srgb, var(--rc) 38%, transparent); }
+
+.rec {
+  background: var(--surface); border: 1px solid var(--line); border-inline-start: 4px solid var(--rc);
+  border-radius: var(--r-md); box-shadow: var(--sh-1); padding: 14px;
+}
+.rec + .rec { margin-top: 10px; }
+.rec__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.rec__name { font-size: 16px; font-weight: 800; letter-spacing: -.2px; line-height: 1.25; }
+.rate { flex: 0 0 auto; font-size: 12.5px; font-weight: 800; color: var(--gold); background: color-mix(in srgb, var(--gold) 15%, transparent); padding: 3px 9px; border-radius: var(--r-pill); white-space: nowrap; }
+.rate--sm { font-size: 11px; padding: 2px 7px; }
+.rec__tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.rec__tag { font-size: 11px; font-weight: 700; color: var(--ink-soft); background: var(--cream-2); padding: 4px 9px; border-radius: var(--r-pill); }
+.rec__age { color: var(--ink); }
+.rec__meal { color: #fff; background: var(--terra); }
+.rec__why { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+.rec__tip { font-size: 12.5px; color: var(--ink-soft); background: color-mix(in srgb, var(--gold) 11%, transparent); border-radius: var(--r-sm); padding: 7px 10px; margin-top: 8px; line-height: 1.45; }
+.rec__foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 11px; }
+.rec__town { font-size: 12.5px; font-weight: 700; color: var(--ink-faint); display: inline-flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden; }
+.rec__town svg { width: 14px; height: 14px; flex: none; }
+
+/* Meal rows (itinerary day) */
+.meal { display: flex; align-items: center; gap: 11px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--sh-1); padding: 11px 13px; }
+.meal + .meal { margin-top: 8px; }
+.meal__tag { flex: 0 0 auto; width: 56px; text-align: center; font-size: 11px; font-weight: 800; color: var(--terra-dk); background: color-mix(in srgb, var(--terra) 11%, transparent); padding: 6px 4px; border-radius: var(--r-sm); }
+.meal__body { flex: 1; min-width: 0; }
+.meal__name { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.meal__sub { font-size: 12px; color: var(--ink-faint); font-weight: 600; margin-top: 2px; }
+.meal__map { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--terra); background: color-mix(in srgb, var(--terra) 10%, transparent); }
+.meal__map svg { width: 17px; height: 17px; }
+
 /* ---------- Sheet / modal ---------- */
 .sheet-backdrop {
   position: fixed; inset: 0; z-index: 60; background: rgba(20,14,10,.46);

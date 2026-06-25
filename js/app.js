@@ -32,6 +32,7 @@
     clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>`,
     nav: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11 21 3l-8 18-2-7-8-3Z" stroke-linejoin="round"/></svg>`,
     bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 8h14l-1 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`,
+    spark: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4L12 3Z" stroke-linejoin="round"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9L18 14Z" stroke-linejoin="round"/></svg>`,
   };
   const typeIcon = { flight: I.plane, drive: I.car, car: I.car, train: I.train, food: I.fork, sight: I.star, hike: I.mountain, stay: I.bed, free: I.star, note: I.info };
   const typeLabel = { flight: "טיסה", drive: "נסיעה", car: "רכב", train: "רכבת", food: "אוכל", sight: "אתר", hike: "טיול רגלי", stay: "צ׳ק־אין", free: "חופשי", note: "הערה" };
@@ -53,6 +54,9 @@
     if (it.lat && it.lng) return `https://waze.com/ul?ll=${it.lat},${it.lng}&navigate=yes`;
     return `https://waze.com/ul?q=${encodeURIComponent(it.address || it.place || "")}`;
   }
+  function qUrl(q) { return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q || "")}`; }
+  function stars(r) { return r ? `<span class="rate">★ ${Number(r).toFixed(1)}</span>` : ""; }
+  function levelColor(l) { return ({ "רגוע": "var(--olive)", "כיף": "var(--sky)", "אתגר": "var(--terra)", "אקסטרים": "#C0392B" })[l] || "var(--terra)"; }
   function daysUntil(iso) { const ms = d(iso) - new Date(new Date().toDateString()); return Math.round(ms / 86400000); }
   function nights(a, b) { return Math.round((d(b) - d(a)) / 86400000); }
   const esc = s => (s == null ? "" : String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])));
@@ -62,6 +66,7 @@
     { id: "home", label: "בית", icon: I.home, title: T.meta.title },
     { id: "itinerary", label: "מסלול", icon: I.route, title: "המסלול" },
     { id: "stays", label: "לינה", icon: I.bed, title: "לינה" },
+    { id: "recos", label: "המלצות", icon: I.spark, title: "המלצות לטיול" },
     { id: "tickets", label: "כרטיסים", icon: I.ticket, title: "כרטיסים ומסמכים" },
     { id: "info", label: "מידע", icon: I.info, title: "מידע שימושי" },
   ];
@@ -201,7 +206,70 @@
         <div class="day-nav__label"><b>${esc(day.title || fmtFull(day.date))}</b><small style="color:${reg.color}">● ${esc(reg.name)} · ${esc(fmtFull(day.date))}</small></div>
         <button class="day-nav__btn" data-day="${Math.min(T.days.length - 1, activeDayIdx + 1)}" ${activeDayIdx === T.days.length - 1 ? "disabled" : ""}>‹</button>
       </div>`;
-    return `${navBtns}<div class="timeline">${items || `<div class="card muted">יום חופשי 🌿</div>`}</div>`;
+    const meals = (T.meals && T.meals[day.date]) || [];
+    const mealsBlock = meals.length ? `
+      <div class="section-title" style="margin:22px 4px 10px">${I.fork} ארוחות היום</div>
+      ${meals.map(mealCard).join("")}` : "";
+    return `${navBtns}<div class="timeline">${items || `<div class="card muted">יום חופשי 🌿</div>`}</div>${mealsBlock}`;
+  }
+
+  function mealCard(m) {
+    const sub = [m.town, m.price, m.note].filter(Boolean).map(esc).join(" · ");
+    return `<div class="meal">
+      <div class="meal__tag">${esc(m.meal)}</div>
+      <div class="meal__body">
+        <div class="meal__name">${esc(m.name)} ${m.rating ? `<span class="rate rate--sm">★ ${Number(m.rating).toFixed(1)}</span>` : ""}</div>
+        ${sub ? `<div class="meal__sub">${sub}</div>` : ""}
+      </div>
+      ${m.q ? `<a class="meal__map" href="${qUrl(m.q)}" target="_blank" rel="noopener" aria-label="מפה">${I.nav}</a>` : ""}
+    </div>`;
+  }
+
+  /* ---------------- Recommendations screen ---------------- */
+  let activeRecRegion = (T.regions[0] && T.regions[0].id) || "milan";
+  function recKidCard(k, color) {
+    return `<div class="rec" style="--rc:${color}">
+      <div class="rec__head"><div class="rec__name">${esc(k.name)}</div>${stars(k.rating)}</div>
+      <div class="rec__tags">
+        <span class="rec__tag">${esc(k.cat)}</span>
+        <span class="rec__tag rec__age">גיל ${esc(k.ages)}</span>
+        <span class="rec__tag" style="color:${levelColor(k.level)};background:${levelColor(k.level)}1a">${esc(k.level)}</span>
+        ${k.price ? `<span class="rec__tag">${esc(k.price)}</span>` : ""}
+      </div>
+      <div class="rec__why">${esc(k.why)}</div>
+      ${k.tip ? `<div class="rec__tip">💡 ${esc(k.tip)}</div>` : ""}
+      <div class="rec__foot"><span class="rec__town">${I.pin}${esc(k.town)}</span>
+        <a class="btn btn--ghost" href="${qUrl(k.q)}" target="_blank" rel="noopener">${I.nav} מפה</a></div>
+    </div>`;
+  }
+  function recFoodCard(f, color) {
+    return `<div class="rec rec--food" style="--rc:${color}">
+      <div class="rec__head"><div class="rec__name">${esc(f.name)}</div>${stars(f.rating)}</div>
+      <div class="rec__tags">
+        <span class="rec__tag rec__meal">${esc(f.meal)}</span>
+        <span class="rec__tag">${esc(f.cuisine)}</span>
+        <span class="rec__tag">${esc(f.price)}${f.per ? " · " + esc(f.per) : ""}</span>
+      </div>
+      <div class="rec__why">${esc(f.why)}</div>
+      <div class="rec__foot"><span class="rec__town">${I.pin}${esc(f.town)}</span>
+        <a class="btn btn--ghost" href="${qUrl(f.q)}" target="_blank" rel="noopener">${I.nav} מפה</a></div>
+    </div>`;
+  }
+  function screenRecommendations() {
+    const recs = T.recommendations || {};
+    const switcher = T.regions.map(r =>
+      `<button class="recreg ${r.id === activeRecRegion ? "is-active" : ""}" data-recreg="${r.id}" style="--rc:${r.color}">${esc(r.name)}</button>`).join("");
+    const data = recs[activeRecRegion] || { kids: [], food: [] };
+    const color = regionOf(activeRecRegion).color;
+    const kids = (data.kids || []).map(k => recKidCard(k, color)).join("");
+    const food = (data.food || []).map(f => recFoodCard(f, color)).join("");
+    return `
+      <div class="recreg-row">${switcher}</div>
+      <div class="section-title">${I.spark} כיף לילדים <small>3 · 7 · 10½</small></div>
+      ${kids || `<div class="card muted">בקרוב.</div>`}
+      <div class="section-title">${I.fork} מסעדות מומלצות</div>
+      ${food || `<div class="card muted">בקרוב.</div>`}
+    `;
   }
 
   function screenItinerary() {
@@ -324,7 +392,7 @@
   }
 
   /* ---------------- Router ---------------- */
-  const RENDER = { home: screenHome, itinerary: screenItinerary, stays: screenStays, tickets: screenTickets, info: screenInfo };
+  const RENDER = { home: screenHome, itinerary: screenItinerary, stays: screenStays, recos: screenRecommendations, tickets: screenTickets, info: screenInfo };
   let current = "home";
 
   function go(tab) {
@@ -368,6 +436,9 @@
     // internal go links
     screen.querySelectorAll("[data-go]").forEach(el =>
       el.addEventListener("click", () => go(el.dataset.go)));
+    // recommendations region switcher
+    screen.querySelectorAll("[data-recreg]").forEach(b =>
+      b.addEventListener("click", () => { activeRecRegion = b.dataset.recreg; go("recos"); }));
   }
 
   /* ---------------- Events ---------------- */
