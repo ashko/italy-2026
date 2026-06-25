@@ -146,33 +146,72 @@
   }
 
   let activeDayIdx = 0;
+  const HE_MON_FULL = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+  const HE_WD_SHORT = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
+  const pad2 = n => String(n).padStart(2, "0");
+
+  function renderCalendar() {
+    const first = d(T.days[0].date);
+    const year = first.getFullYear(), month = first.getMonth();
+    const startWd = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const todayIso = new Date().toISOString().slice(0, 10);
+
+    const byDate = {};
+    T.days.forEach((dd, i) => { byDate[dd.date] = i; });
+
+    const wdRow = HE_WD_SHORT.map(w => `<div class="cal__wd">${w}</div>`).join("");
+    let cells = "";
+    for (let i = 0; i < startWd; i++) cells += `<div class="cal__cell cal__cell--blank"></div>`;
+    for (let n = 1; n <= daysInMonth; n++) {
+      const iso = `${year}-${pad2(month + 1)}-${pad2(n)}`;
+      const idx = byDate[iso];
+      const isTrip = idx !== undefined;
+      const isActive = idx === activeDayIdx;
+      const isToday = iso === todayIso;
+      if (isTrip) {
+        const reg = regionOf(T.days[idx].region);
+        cells += `<button class="cal__cell cal__cell--trip ${isActive ? "is-active" : ""} ${isToday ? "is-today" : ""}"
+          data-day="${idx}" style="--rc:${reg.color}"><span>${n}</span><i class="cal__dot"></i></button>`;
+      } else {
+        cells += `<div class="cal__cell cal__cell--out ${isToday ? "is-today" : ""}">${n}</div>`;
+      }
+    }
+
+    const legend = T.regions.map(r =>
+      `<span class="cal__leg"><i style="background:${r.color}"></i>${esc(r.name)}</span>`).join("");
+
+    return `
+      <div class="cal">
+        <div class="cal__head"><b>${HE_MON_FULL[month]} ${year}</b><small>${T.days.length} ימים</small></div>
+        <div class="cal__grid cal__wds">${wdRow}</div>
+        <div class="cal__grid">${cells}</div>
+        <div class="cal__legend">${legend}</div>
+      </div>`;
+  }
+
+  function renderDayDetail() {
+    const day = T.days[activeDayIdx];
+    const reg = regionOf(day.region);
+    const items = (day.items || []).map(it =>
+      `<div class="tl-item" style="--accent:${typeColor[it.type] || "var(--terra)"}">${itemCard(it, day.date)}</div>`).join("");
+    const navBtns = `
+      <div class="day-nav">
+        <button class="day-nav__btn" data-day="${Math.max(0, activeDayIdx - 1)}" ${activeDayIdx === 0 ? "disabled" : ""}>›</button>
+        <div class="day-nav__label"><b>${esc(day.title || fmtFull(day.date))}</b><small style="color:${reg.color}">● ${esc(reg.name)} · ${esc(fmtFull(day.date))}</small></div>
+        <button class="day-nav__btn" data-day="${Math.min(T.days.length - 1, activeDayIdx + 1)}" ${activeDayIdx === T.days.length - 1 ? "disabled" : ""}>‹</button>
+      </div>`;
+    return `${navBtns}<div class="timeline">${items || `<div class="card muted">יום חופשי 🌿</div>`}</div>`;
+  }
+
   function screenItinerary() {
-    if (!T.days.length) return emptyState("המסלול יתווסף בקרוב", "הזמן שובל הימים יופיע כאן עם כל הפעילויות.");
-    // ensure active day is today-or-next on first open
+    if (!T.days.length) return emptyState("המסלול יתווסף בקרוב", "שובל הימים יופיע כאן עם כל הפעילויות.");
     if (screenItinerary._init !== true) {
       const today = new Date().toISOString().slice(0, 10);
       const idx = T.days.findIndex(x => x.date >= today);
       activeDayIdx = idx >= 0 ? idx : 0; screenItinerary._init = true;
     }
-    const strip = T.days.map((day, i) => {
-      const x = d(day.date);
-      return `<button class="daypill ${i === activeDayIdx ? "is-active" : ""}" data-day="${i}">
-        <small>${esc(HE_MON[x.getMonth()])}</small><b>${x.getDate()}</b><span class="wd">${esc(HE_DAYS[x.getDay()])}</span>
-      </button>`;
-    }).join("");
-
-    const day = T.days[activeDayIdx];
-    const reg = regionOf(day.region);
-    const items = (day.items || []).map(it => `<div class="tl-item" style="--accent:${typeColor[it.type] || "var(--terra)"}">${itemCard(it, day.date)}</div>`).join("");
-
-    return `
-      <div class="daystrip">${strip}</div>
-      <div class="day-head">
-        <h2>${esc(day.title || fmtFull(day.date))}</h2>
-        <span class="city" style="color:${reg.color}">● ${esc(reg.name)}</span>
-      </div>
-      <div class="timeline">${items || `<div class="card muted">אין פעילויות מתוכננות — יום חופשי 🌿</div>`}</div>
-    `;
+    return renderCalendar() + renderDayDetail();
   }
 
   function screenStays() {
@@ -200,9 +239,10 @@
         </div>
         <div class="stay__actions">
           <a class="btn btn--accent" href="${mapsUrl(s)}" target="_blank" rel="noopener">${I.nav} ניווט</a>
+          ${s.doc ? `<a class="btn" href="${esc(s.doc)}" target="_blank" rel="noopener">${I.doc} מסמך</a>` : ""}
           ${s.phone ? `<a class="btn" href="tel:${esc(s.phone)}">${I.phone} התקשר</a>` : ""}
-          ${s.bookingUrl ? `<a class="btn" href="${esc(s.bookingUrl)}" target="_blank" rel="noopener">${I.doc} הזמנה</a>` : ""}
         </div>
+        ${s.bookingUrl ? `<a class="stay__weblink" href="${esc(s.bookingUrl)}" target="_blank" rel="noopener">${esc(s.linkLabel || "קישור להזמנה")} ‹</a>` : ""}
       </div>`;
     }).join("");
   }
@@ -230,7 +270,8 @@
           ${k.notes ? `<div class="tl-notes">${esc(k.notes)}</div>` : ""}
           <div class="ticket__perf">
             <span class="ticket__conf">קוד הזמנה: <b>${esc(k.confirmation || "—")}</b></span>
-            ${k.url ? `<a class="btn btn--ghost" href="${esc(k.url)}" target="_blank" rel="noopener">פתיחה</a>` : ""}
+            ${k.doc ? `<a class="btn btn--accent" href="${esc(k.doc)}" target="_blank" rel="noopener">${I.doc} מסמך מקורי</a>`
+              : (k.url ? `<a class="btn btn--ghost" href="${esc(k.url)}" target="_blank" rel="noopener">פתיחה</a>` : "")}
           </div>
         </div>
       </div>`;

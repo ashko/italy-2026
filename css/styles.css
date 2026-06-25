@@ -4,22 +4,22 @@
    =========================================================== */
 
 :root {
-  /* Palette */
-  --cream: #FBF6EE;
-  --cream-2: #F4ECDF;
+  /* Palette — refined, clean & airy */
+  --cream: #FAF7F2;
+  --cream-2: #F1ECE3;
   --paper: #FFFFFF;
-  --ink: #2A2018;
-  --ink-soft: #6B5D4F;
-  --ink-faint: #9C8E7E;
-  --line: #EADFCD;
+  --ink: #211E1B;
+  --ink-soft: #6E665C;
+  --ink-faint: #A89F93;
+  --line: #ECE7DD;
 
-  --terra: #C75D3C;        /* terracotta */
+  --terra: #C95B3D;        /* refined terracotta */
   --terra-dk: #A8492D;
-  --olive: #4E7A56;        /* tuscan green */
-  --olive-dk: #3B6043;
-  --gold: #C99A3F;
-  --sky: #3E78A8;
-  --plum: #7B4B6B;
+  --olive: #4F7A5E;        /* sage green */
+  --olive-dk: #385E47;
+  --gold: #BE9442;
+  --sky: #3A7196;
+  --plum: #7A4A66;
 
   --ok: #3F8F5B;
   --warn: #C98A2F;
@@ -34,9 +34,9 @@
   --r-md: 18px;
   --r-lg: 26px;
   --r-pill: 999px;
-  --sh-1: 0 1px 2px rgba(42,32,24,.06), 0 2px 8px rgba(42,32,24,.05);
-  --sh-2: 0 6px 18px rgba(42,32,24,.10), 0 2px 6px rgba(42,32,24,.06);
-  --sh-3: 0 18px 50px rgba(42,32,24,.22);
+  --sh-1: 0 1px 2px rgba(33,30,27,.04), 0 4px 12px rgba(33,30,27,.05);
+  --sh-2: 0 8px 24px rgba(33,30,27,.09), 0 2px 6px rgba(33,30,27,.05);
+  --sh-3: 0 20px 56px rgba(33,30,27,.20);
 
   /* Type */
   --font: "Heebo", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
@@ -57,8 +57,7 @@ body {
   font-family: var(--font);
   color: var(--ink);
   background:
-    radial-gradient(120% 60% at 100% 0%, #FCEFE0 0%, rgba(252,239,224,0) 55%),
-    radial-gradient(120% 60% at 0% 0%, #EEF3E9 0%, rgba(238,243,233,0) 50%),
+    radial-gradient(140% 50% at 100% -5%, #F6EBDF 0%, rgba(246,235,223,0) 45%),
     var(--bg);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
@@ -234,6 +233,53 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 .daypill b { font-size: 19px; font-weight: 900; font-family: var(--display); }
 .daypill .wd { font-size: 11px; font-weight: 600; }
 
+/* ---------- Month calendar ---------- */
+.cal {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  box-shadow: var(--sh-1); padding: 16px 14px 14px;
+}
+.cal__head { display: flex; align-items: baseline; justify-content: space-between; margin: 0 4px 14px; }
+.cal__head b { font-family: var(--display); font-size: 21px; font-weight: 800; }
+.cal__head small { font-size: 12px; font-weight: 700; color: var(--ink-faint); }
+.cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.cal__wds { margin-bottom: 7px; }
+.cal__wd { text-align: center; font-size: 11px; font-weight: 800; color: var(--ink-faint); }
+.cal__cell {
+  aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; border-radius: 13px; position: relative;
+}
+.cal__cell--blank { visibility: hidden; }
+.cal__cell--out { color: var(--ink-faint); opacity: .4; }
+.cal__cell--trip {
+  color: var(--ink); cursor: pointer; transition: transform .1s;
+  background: color-mix(in srgb, var(--rc) 11%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rc) 24%, transparent);
+}
+.cal__cell--trip:active { transform: scale(.9); }
+.cal__cell .cal__dot { position: absolute; bottom: 5px; width: 5px; height: 5px; border-radius: 50%; background: var(--rc); }
+.cal__cell.is-active {
+  background: var(--rc); color: #fff; border-color: var(--rc);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--rc) 45%, transparent);
+}
+.cal__cell.is-active .cal__dot { background: #fff; }
+.cal__cell.is-today::after { content: ""; position: absolute; top: 5px; inset-inline-start: 5px; width: 5px; height: 5px; border-radius: 50%; background: var(--terra); }
+.cal__cell--trip.is-today::after { background: #fff; }
+.cal__legend { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 16px 4px 2px; }
+.cal__leg { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: var(--ink-soft); }
+.cal__leg i { width: 9px; height: 9px; border-radius: 50%; }
+
+.day-nav { display: flex; align-items: center; gap: 10px; margin: 20px 2px 14px; }
+.day-nav__btn {
+  width: 40px; height: 40px; flex: 0 0 auto; border-radius: 50%; background: var(--surface);
+  border: 1px solid var(--line); box-shadow: var(--sh-1); font-size: 22px; font-weight: 700;
+  color: var(--terra); display: grid; place-items: center; transition: transform .1s;
+}
+.day-nav__btn:active { transform: scale(.92); }
+.day-nav__btn:disabled { opacity: .3; }
+.day-nav__label { flex: 1; text-align: center; min-width: 0; }
+.day-nav__label b { display: block; font-family: var(--display); font-size: 19px; font-weight: 800; }
+.day-nav__label small { font-size: 12px; font-weight: 600; }
+
 /* ---------- Timeline ---------- */
 .day-head {
   display: flex; align-items: baseline; justify-content: space-between; margin: 20px 4px 14px;
@@ -305,8 +351,13 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 .stay__arrow { display: flex; align-items: center; color: var(--ink-faint); font-size: 18px; padding: 0 2px; }
 .stay__meta { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 14px; }
 .kv { font-size: 12px; font-weight: 700; color: var(--ink-soft); background: var(--cream-2); padding: 5px 10px; border-radius: var(--r-pill); }
-.stay__actions { display: flex; gap: 8px; padding: 0 14px 14px; }
+.stay__actions { display: flex; gap: 8px; padding: 0 14px 12px; }
 .stay__actions .btn { flex: 1; }
+.stay__weblink {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 0 14px 14px; padding: 10px 13px; font-size: 13px; font-weight: 700; color: var(--terra-dk);
+  background: color-mix(in srgb, var(--terra) 8%, transparent); border-radius: var(--r-sm);
+}
 
 /* ---------- Ticket card ---------- */
 .ticket {

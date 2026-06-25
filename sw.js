@@ -1,7 +1,7 @@
 /* Service worker — איטליה 2026
    Strategy: network-first for app code (always fresh online),
    cache fallback for offline. Fonts cache-first. */
-const CACHE = "italy26-v3";
+const CACHE = "italy26-v4";
 const ASSETS = [
   "./",
   "./index.html",
@@ -12,6 +12,13 @@ const ASSETS = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
+  "./photos/family.jpg",
+  "./docs/flight-elal.pdf",
+  "./docs/car-europcar.pdf",
+  "./docs/lodging-milan.pdf",
+  "./docs/lodging-garda.pdf",
+  "./docs/lodging-dolomites.pdf",
+  "./docs/itinerary-draft.jpg",
 ];
 
 self.addEventListener("install", e => {

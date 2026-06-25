@@ -168,14 +168,14 @@ const TRIP = {
       address: "Via Molino delle Armi 13, Milano 20123", guests: 5,
       confirmation: "Airbnb · Vikey DB36XYNA", phone: "+393899085093", host: "פרנצ׳סקו",
       notes: "Wi-Fi: VodafoneMOLINO13 / Molino2023! · צ׳ק-אין מקוון מראש דרך Vikey",
-      bookingUrl: "https://guest.vikey.it/checkin/DB36XYNA",
+      bookingUrl: "https://guest.vikey.it/checkin/DB36XYNA", linkLabel: "צ׳ק-אין מקוון (Vikey)", doc: "docs/lodging-milan.pdf",
     },
     {
       id: "garda", name: "Porto Vecchio Appartamenti", region: "garda",
       checkIn: "2026-08-15", checkOut: "2026-08-19", checkInTime: "16:00", checkOutTime: "10:00",
       address: "via Francesco Fontana 14, 37017 Lazise VR", guests: 5,
       confirmation: "Booking 5381027177", phone: "+393388253215", host: "מישהו ייפגוש אתכם במקום",
-      notes: "דירת פנטהאוז · 4 לילות · שולם מראש €1,410.87",
+      notes: "דירת פנטהאוז · 4 לילות · שולם מראש €1,410.87", doc: "docs/lodging-garda.pdf",
     },
     {
       id: "dolomites", name: "Hotel Touring Val Gardena", region: "dolomites",
@@ -183,7 +183,7 @@ const TRIP = {
       address: "Via Dursan 71, Santa Cristina Valgardena (BZ)", guests: 5,
       confirmation: "3259471", phone: "+390471793119", host: "Hotel Touring",
       notes: "Family Suite · ארוחת בוקר · יתרה €2,513.73 + מס תיירות ~€36 בצ׳ק-אין",
-      bookingUrl: "https://www.hoteltouring.bz",
+      bookingUrl: "https://www.hoteltouring.bz", linkLabel: "אתר המלון", doc: "docs/lodging-dolomites.pdf",
     },
     {
       id: "verona", name: "דירה בורונה (לאימות)", region: "verona",
@@ -200,20 +200,33 @@ const TRIP = {
       id: "ly387", category: "flight", title: "טיסה הלוך · LY387",
       date: "2026-08-13", time: "18:30",
       from: "TLV", fromName: "נתב\"ג · טרמינל 3", to: "MXP", toName: "מלפנסה · טרמינל 1",
-      confirmation: "X8V9D5", notes: "נחיתה 21:40 · משך 4:10 · אל על Economy Lite · כרטיס 1142493634997",
+      confirmation: "X8V9D5", doc: "docs/flight-elal.pdf",
+      notes: "נחיתה 21:40 · משך 4:10 · אל על Economy Lite · כרטיס 1142493634997",
     },
     {
       id: "ly282", category: "flight", title: "טיסה חזור · LY282",
       date: "2026-08-25", time: "19:55",
       from: "MXP", fromName: "מלפנסה · טרמינל 1", to: "TLV", toName: "נתב\"ג · טרמינל 3",
-      confirmation: "X8V9D5", notes: "נחיתה 00:40 (26.8) · משך 3:45 · אל על Economy Lite",
+      confirmation: "X8V9D5", doc: "docs/flight-elal.pdf",
+      notes: "נחיתה 00:40 (26.8) · משך 3:45 · אל על Economy Lite",
     },
     {
       id: "car", category: "car", title: "השכרת רכב · Europcar",
       date: "2026-08-15", time: "10:00",
       from: "מילאנו", fromName: "Via Galvani · 15.8 10:00", to: "מלפנסה", toName: "טרמינל 1 · 25.8 16:00",
-      confirmation: "1199350258 EC", notes: "DS 7 אוטומטי או דומה · 11 ימים · כולל ק\"מ חופשי, CDW+TP, נהג נוסף · שובר 624489 · נדרש רישיון בינלאומי + כרטיס אשראי לפיקדון",
+      confirmation: "1199350258 EC", doc: "docs/car-europcar.pdf",
+      notes: "DS 7 אוטומטי או דומה · 11 ימים · כולל ק\"מ חופשי, CDW+TP, נהג נוסף · שובר 624489 · נדרש רישיון בינלאומי + כרטיס אשראי לפיקדון",
     },
+  ],
+
+  /* ---------------- מסמכים מקוריים ---------------- */
+  documents: [
+    { name: "טיוטת המסלול (המקור)", url: "docs/itinerary-draft.jpg", note: "התמונה ששלחנו" },
+    { name: "כרטיס טיסה — אל על", url: "docs/flight-elal.pdf", note: "הלוך + חזור" },
+    { name: "שובר רכב — Europcar", url: "docs/car-europcar.pdf", note: "שובר 624489" },
+    { name: "אישור לינה — מילאנו", url: "docs/lodging-milan.pdf", note: "Molino13" },
+    { name: "אישור לינה — אגם גארדה", url: "docs/lodging-garda.pdf", note: "Porto Vecchio" },
+    { name: "אישור לינה — דולומיטים", url: "docs/lodging-dolomites.pdf", note: "Hotel Touring" },
   ],
 
   /* ---------------- טלפונים ---------------- */
