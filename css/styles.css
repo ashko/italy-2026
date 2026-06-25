@@ -180,13 +180,14 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
   color: #fff;
   padding: 20px;
   background:
-    linear-gradient(180deg, rgba(22,15,11,0) 28%, rgba(22,15,11,.48) 58%, rgba(22,15,11,.88) 100%),
-    url("../photos/family-hero.jpg") center 18% / cover,
+    linear-gradient(180deg, rgba(18,12,8,0) 14%, rgba(18,12,8,.40) 44%, rgba(18,12,8,.80) 74%, rgba(18,12,8,.95) 100%),
+    url("../photos/family-hero.jpg") center 15% / cover,
     linear-gradient(135deg, var(--terra) 0%, var(--olive-dk) 120%);
   box-shadow: var(--sh-2);
   isolation: isolate;
 }
-.hero__title, .hero__sub, .hero__kicker { text-shadow: 0 1px 10px rgba(0,0,0,.4); }
+.hero__kicker, .hero__title, .hero__sub { text-shadow: 0 2px 16px rgba(0,0,0,.65), 0 1px 4px rgba(0,0,0,.55); }
+.hero__title { font-weight: 900; }
 .hero__kicker { font-size: 12.5px; font-weight: 700; letter-spacing: .14em; opacity: .92; text-transform: uppercase; }
 .hero__title { font-family: var(--display); font-size: 38px; line-height: .98; font-weight: 900; margin: 8px 0 4px; }
 .hero__sub { font-size: 14px; opacity: .95; font-weight: 500; }
@@ -208,11 +209,10 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 .countdown b { font-size: 16px; }
 
 /* ---------- Quick chips ---------- */
-.chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px; margin: 14px -2px 0; scrollbar-width: none; }
-.chips::-webkit-scrollbar { display: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 2px; margin: 14px 2px 0; }
 .chip {
-  flex: 0 0 auto; background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--r-pill); padding: 9px 15px; font-size: 13px; font-weight: 700;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-pill); padding: 9px 14px; font-size: 13px; font-weight: 700;
   box-shadow: var(--sh-1); display: inline-flex; align-items: center; gap: 7px;
 }
 .chip .dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -450,6 +450,24 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 .list-link .ll-ico svg { width: 20px; height: 20px; }
 .list-link small { display: block; font-weight: 600; font-size: 12px; color: var(--ink-faint); margin-top: 1px; }
 .list-link .chev { margin-inline-start: auto; color: var(--ink-faint); font-size: 20px; }
+
+/* ---------- In-app document viewer ---------- */
+.docview {
+  position: fixed; inset: 0; z-index: 90; display: flex; flex-direction: column;
+  background: var(--cream); animation: fade .2s ease;
+}
+.docview__bar {
+  height: calc(54px + var(--safe-top)); padding-top: var(--safe-top);
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px;
+  padding-inline: 12px; background: var(--surface); border-bottom: 1px solid var(--line);
+  box-shadow: var(--sh-1); z-index: 1;
+}
+.docview__back { justify-self: start; color: var(--terra); font-weight: 800; font-size: 16px; padding: 6px 4px; }
+.docview__title { text-align: center; font-weight: 800; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60vw; }
+.docview__ext { justify-self: end; color: var(--terra); font-weight: 700; font-size: 13px; padding: 6px 4px; }
+.docview__body { flex: 1; overflow: auto; -webkit-overflow-scrolling: touch; background: #4a4f54; }
+.docview__body iframe { width: 100%; height: 100%; border: 0; display: block; }
+.docview__body img { width: 100%; height: auto; display: block; }
 
 /* ---------- Passcode lock ---------- */
 .lock {

@@ -1,7 +1,7 @@
 /* Service worker — איטליה 2026
    Strategy: network-first for app code (always fresh online),
    cache fallback for offline. Fonts cache-first. */
-const CACHE = "italy26-v5";
+const CACHE = "italy26-v6";
 const ASSETS = [
   "./",
   "./index.html",

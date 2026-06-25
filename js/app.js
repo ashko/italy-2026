@@ -239,7 +239,7 @@
         </div>
         <div class="stay__actions">
           <a class="btn btn--accent" href="${mapsUrl(s)}" target="_blank" rel="noopener">${I.nav} ניווט</a>
-          ${s.doc ? `<a class="btn" href="${esc(s.doc)}" target="_blank" rel="noopener">${I.doc} מסמך</a>` : ""}
+          ${s.doc ? `<a class="btn" href="${esc(s.doc)}" data-doc="${esc(s.doc)}" data-docname="${esc(s.name)}">${I.doc} מסמך</a>` : ""}
           ${s.phone ? `<a class="btn" href="tel:${esc(s.phone)}">${I.phone} התקשר</a>` : ""}
         </div>
         ${s.bookingUrl ? `<a class="stay__weblink" href="${esc(s.bookingUrl)}" target="_blank" rel="noopener">${esc(s.linkLabel || "קישור להזמנה")} ‹</a>` : ""}
@@ -270,7 +270,7 @@
           ${k.notes ? `<div class="tl-notes">${esc(k.notes)}</div>` : ""}
           <div class="ticket__perf">
             <span class="ticket__conf">קוד הזמנה: <b>${esc(k.confirmation || "—")}</b></span>
-            ${k.doc ? `<a class="btn btn--accent" href="${esc(k.doc)}" target="_blank" rel="noopener">${I.doc} מסמך מקורי</a>`
+            ${k.doc ? `<a class="btn btn--accent" href="${esc(k.doc)}" data-doc="${esc(k.doc)}" data-docname="${esc(k.title)}">${I.doc} מסמך מקורי</a>`
               : (k.url ? `<a class="btn btn--ghost" href="${esc(k.url)}" target="_blank" rel="noopener">פתיחה</a>` : "")}
           </div>
         </div>
@@ -282,7 +282,7 @@
     const docs = T.documents || [];
     if (!docs.length) return "";
     return `<div class="section-title">${I.doc} מסמכים</div>` + docs.map(dc =>
-      `<a class="list-link" href="${esc(dc.url)}" target="_blank" rel="noopener">
+      `<a class="list-link" href="${esc(dc.url)}" data-doc="${esc(dc.url)}" data-docname="${esc(dc.name)}">
         <div class="ll-ico" style="background:var(--ink)11;color:var(--ink)">${I.doc}</div>
         <div>${esc(dc.name)}<small>${esc(dc.note || "")}</small></div><span class="chev">‹</span>
       </a>`).join("");
@@ -374,6 +374,34 @@
   document.addEventListener("click", e => {
     const tab = e.target.closest("[data-tab]");
     if (tab) go(tab.dataset.tab);
+  });
+
+  /* ---------------- Document viewer ---------------- */
+  const docview = document.getElementById("docview");
+  function openDoc(url, name) {
+    document.getElementById("docviewTitle").textContent = name || "מסמך";
+    document.getElementById("docviewExt").href = url;
+    const body = document.getElementById("docviewBody");
+    const isImg = /\.(jpe?g|png|gif|webp)$/i.test(url);
+    body.innerHTML = isImg
+      ? `<img src="${esc(url)}" alt="${esc(name || "")}">`
+      : `<iframe src="${esc(url)}" title="${esc(name || "")}"></iframe>`;
+    docview.hidden = false;
+    document.body.style.overflow = "hidden";
+    history.pushState({ doc: true }, "");
+  }
+  function closeDoc() {
+    if (docview.hidden) return;
+    docview.hidden = true;
+    document.getElementById("docviewBody").innerHTML = "";
+    document.body.style.overflow = "";
+  }
+  document.getElementById("docviewBack").addEventListener("click", () => history.back());
+  window.addEventListener("popstate", () => { if (!docview.hidden) closeDoc(); });
+  window.addEventListener("keydown", e => { if (e.key === "Escape" && !docview.hidden) history.back(); });
+  document.addEventListener("click", e => {
+    const dl = e.target.closest("[data-doc]");
+    if (dl) { e.preventDefault(); openDoc(dl.dataset.doc, dl.dataset.docname || ""); }
   });
 
   /* ---------------- Install prompt ---------------- */

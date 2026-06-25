@@ -54,6 +54,16 @@
     <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
   </div>
 
+  <!-- In-app document viewer -->
+  <div class="docview" id="docview" hidden>
+    <div class="docview__bar">
+      <button class="docview__back" id="docviewBack" aria-label="חזרה">‹ חזרה</button>
+      <div class="docview__title" id="docviewTitle"></div>
+      <a class="docview__ext" id="docviewExt" href="#" target="_blank" rel="noopener">פתח ↗</a>
+    </div>
+    <div class="docview__body" id="docviewBody"></div>
+  </div>
+
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>
