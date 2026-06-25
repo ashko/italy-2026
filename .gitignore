@@ -1,6 +1,10 @@
 # Private trip documents — NEVER deploy these publicly
 trip-data/
 
+# Full-res source photos — ship only the optimized hero + generated icons
+photos/family.jpg
+photos/WhatsApp*
+
 # Dev-only
 .claude/
 *.output
