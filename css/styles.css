@@ -460,6 +460,23 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 .meal__map { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--terra); background: color-mix(in srgb, var(--terra) 10%, transparent); }
 .meal__map svg { width: 17px; height: 17px; }
 
+/* ---------- Birthday ---------- */
+.bday {
+  display: flex; align-items: center; gap: 12px; color: #fff;
+  background: linear-gradient(120deg, #D6457E 0%, #E0739B 52%, var(--gold) 135%);
+  border-radius: var(--r-md); padding: 13px 15px; box-shadow: var(--sh-2);
+  position: relative; overflow: hidden; margin-bottom: 14px;
+}
+.bday::after { content: "🎈"; position: absolute; inset-inline-end: -4px; bottom: -10px; font-size: 44px; opacity: .22; }
+.bday__emoji { font-size: 30px; flex: 0 0 auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,.2)); }
+.bday__txt { display: flex; flex-direction: column; min-width: 0; }
+.bday__txt b { font-size: 15px; font-weight: 900; }
+.bday__txt span { font-size: 12.5px; opacity: .95; font-weight: 600; }
+.bday--home { margin: 14px 0 4px; }
+.bday--home .chev { margin-inline-start: auto; font-size: 20px; opacity: .9; position: relative; z-index: 1; }
+
+.cal__cake { position: absolute; top: 1px; inset-inline-end: 3px; font-size: 11px; line-height: 1; filter: drop-shadow(0 1px 1px rgba(0,0,0,.25)); }
+
 /* ---------- Sheet / modal ---------- */
 .sheet-backdrop {
   position: fixed; inset: 0; z-index: 60; background: rgba(20,14,10,.46);

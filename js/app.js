@@ -33,10 +33,11 @@
     nav: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11 21 3l-8 18-2-7-8-3Z" stroke-linejoin="round"/></svg>`,
     bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 8h14l-1 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`,
     spark: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4L12 3Z" stroke-linejoin="round"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9L18 14Z" stroke-linejoin="round"/></svg>`,
+    cake: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20h16v-7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7Z"/><path d="M4 15c1.5 1.2 3 1.2 4 0s2.5-1.2 4 0 2.5 1.2 4 0 2.5-1.2 4 0" /><path d="M12 8V5M8.5 8V6M15.5 8V6" stroke-linecap="round"/></svg>`,
   };
-  const typeIcon = { flight: I.plane, drive: I.car, car: I.car, train: I.train, food: I.fork, sight: I.star, hike: I.mountain, stay: I.bed, free: I.star, note: I.info };
-  const typeLabel = { flight: "טיסה", drive: "נסיעה", car: "רכב", train: "רכבת", food: "אוכל", sight: "אתר", hike: "טיול רגלי", stay: "צ׳ק־אין", free: "חופשי", note: "הערה" };
-  const typeColor = { flight: "var(--sky)", drive: "var(--terra)", car: "var(--terra)", train: "var(--plum)", food: "var(--gold)", sight: "var(--terra)", hike: "var(--olive)", stay: "var(--olive)", free: "var(--ink-faint)", note: "var(--ink-faint)" };
+  const typeIcon = { flight: I.plane, drive: I.car, car: I.car, train: I.train, food: I.fork, sight: I.star, hike: I.mountain, stay: I.bed, free: I.star, note: I.info, birthday: I.cake };
+  const typeLabel = { flight: "טיסה", drive: "נסיעה", car: "רכב", train: "רכבת", food: "אוכל", sight: "אתר", hike: "טיול רגלי", stay: "צ׳ק־אין", free: "חופשי", note: "הערה", birthday: "יום הולדת" };
+  const typeColor = { flight: "var(--sky)", drive: "var(--terra)", car: "var(--terra)", train: "var(--plum)", food: "var(--gold)", sight: "var(--terra)", hike: "var(--olive)", stay: "var(--olive)", free: "var(--ink-faint)", note: "var(--ink-faint)", birthday: "#D6457E" };
 
   /* ---------------- Helpers ---------------- */
   const HE_DAYS = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
@@ -87,6 +88,16 @@
     const regionChips = T.regions.map(r =>
       `<span class="chip"><span class="dot" style="background:${r.color}"></span>${esc(r.name)}</span>`).join("");
 
+    // Birthday reminder
+    const bIdx = T.days.findIndex(x => x.celebration);
+    const bDay = bIdx >= 0 ? T.days[bIdx] : null;
+    const bdayHome = bDay ? `
+      <div class="bday bday--home" data-goday="${bIdx}">
+        <div class="bday__emoji">${bDay.celebration.emoji || "🎂"}</div>
+        <div class="bday__txt"><b>אל תשכחו! ${esc(bDay.celebration.title)}</b><span>${esc(fmtFull(bDay.date))} · ${esc(regionOf(bDay.region).name)}</span></div>
+        <span class="chev">‹</span>
+      </div>` : "";
+
     // Next up
     const next = nextItem();
     const nextCard = next ? `
@@ -115,6 +126,7 @@
       </section>
 
       <div class="chips">${regionChips}</div>
+      ${bdayHome}
       ${nextCard}
 
       <div class="section-title">${I.bed} איפה ישנים</div>
@@ -176,8 +188,9 @@
       const isToday = iso === todayIso;
       if (isTrip) {
         const reg = regionOf(T.days[idx].region);
+        const cake = T.days[idx].celebration ? `<i class="cal__cake">🎂</i>` : "";
         cells += `<button class="cal__cell cal__cell--trip ${isActive ? "is-active" : ""} ${isToday ? "is-today" : ""}"
-          data-day="${idx}" style="--rc:${reg.color}"><span>${n}</span><i class="cal__dot"></i></button>`;
+          data-day="${idx}" style="--rc:${reg.color}"><span>${n}</span>${cake}<i class="cal__dot"></i></button>`;
       } else {
         cells += `<div class="cal__cell cal__cell--out ${isToday ? "is-today" : ""}">${n}</div>`;
       }
@@ -206,11 +219,16 @@
         <div class="day-nav__label"><b>${esc(day.title || fmtFull(day.date))}</b><small style="color:${reg.color}">● ${esc(reg.name)} · ${esc(fmtFull(day.date))}</small></div>
         <button class="day-nav__btn" data-day="${Math.min(T.days.length - 1, activeDayIdx + 1)}" ${activeDayIdx === T.days.length - 1 ? "disabled" : ""}>‹</button>
       </div>`;
+    const bday = day.celebration ? `
+      <div class="bday">
+        <div class="bday__emoji">${day.celebration.emoji || "🎂"}</div>
+        <div class="bday__txt"><b>${esc(day.celebration.title)}</b><span>${esc(day.celebration.note || "")}</span></div>
+      </div>` : "";
     const meals = (T.meals && T.meals[day.date]) || [];
     const mealsBlock = meals.length ? `
       <div class="section-title" style="margin:22px 4px 10px">${I.fork} ארוחות היום</div>
       ${meals.map(mealCard).join("")}` : "";
-    return `${navBtns}<div class="timeline">${items || `<div class="card muted">יום חופשי 🌿</div>`}</div>${mealsBlock}`;
+    return `${navBtns}${bday}<div class="timeline">${items || `<div class="card muted">יום חופשי 🌿</div>`}</div>${mealsBlock}`;
   }
 
   function mealCard(m) {
@@ -436,6 +454,9 @@
     // internal go links
     screen.querySelectorAll("[data-go]").forEach(el =>
       el.addEventListener("click", () => go(el.dataset.go)));
+    // jump to a specific day in the itinerary
+    screen.querySelectorAll("[data-goday]").forEach(el =>
+      el.addEventListener("click", () => { activeDayIdx = +el.dataset.goday; screenItinerary._init = true; go("itinerary"); }));
     // recommendations region switcher
     screen.querySelectorAll("[data-recreg]").forEach(b =>
       b.addEventListener("click", () => { activeRecRegion = b.dataset.recreg; go("recos"); }));

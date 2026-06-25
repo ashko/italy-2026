@@ -80,12 +80,17 @@ const TRIP = {
       ],
     },
     {
-      date: "2026-08-18", region: "garda", title: "יום אגם נינוח",
+      date: "2026-08-18", region: "garda", title: "יום ההולדת של אוריקי 🎂",
+      celebration: { emoji: "🎂", who: "אוריקי", title: "יום ההולדת של אוריקי!", note: "מזל טוב אוריקי! 🎉 יום מיוחד — שווה לחגוג בגדול." },
       items: [
+        { time: "בוקר", type: "birthday", title: "🎂 מזל טוב אוריקי!", place: "פתיחת יום הולדת",
+          notes: "מתחילים את היום עם הפתעה/מתנה קטנה ושיר יום הולדת. היום של אוריקי!" },
         { time: "", type: "free", title: "חוף, שחייה ואופניים בטיילת", place: "Lazise / Bardolino",
-          notes: "יום קליל לפני המעבר להרים — רחצה, קיאקים, אופניים על הטיילת." },
+          notes: "יום כיפי וקליל לכבוד יום ההולדת — רחצה, קיאקים, אופניים על הטיילת." },
         { time: "אופציונלי", type: "sight", title: "פשקיירה דל גארדה / פארק מים", place: "Peschiera del Garda",
-          address: "Peschiera del Garda", notes: "עיירת מבצר (אתר אונסק\"ו). באזור גם פארקי מים (Caneva Aquapark) ו-Movieland — לפי מצב הילדים." },
+          address: "Peschiera del Garda", notes: "עיירת מבצר (אתר אונסק\"ו). באזור גם פארקי מים (Caneva Aquapark) ו-Movieland — בחירת אוריקי ליום שלו!" },
+        { time: "ערב", type: "birthday", title: "🎉 ארוחת ערב חגיגית + עוגה", place: "לבחירת אוריקי",
+          notes: "חגיגה לסיום היום — עוגה/גלידה חגיגית (למשל גלידריית Biancaneve בברדולינו) או ארוחה מיוחדת שאוריקי יבחר." },
       ],
     },
     {
