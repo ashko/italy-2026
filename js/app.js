@@ -1,0 +1,361 @@
+/* ============================================================
+   איטליה 2026 — App logic (vanilla, no build)
+   ============================================================ */
+(function () {
+  "use strict";
+  const T = window.TRIP;
+  const $ = (s, r = document) => r.querySelector(s);
+  const screen = $("#screen");
+  const topTitle = $("#topbarTitle");
+
+  /* ---------------- Icons ---------------- */
+  const I = {
+    home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6" stroke-linecap="round"/></svg>`,
+    route: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="5" r="2.4"/><path d="M8.4 19H14a3 3 0 0 0 3-3V8" stroke-linecap="round"/><path d="M6 16.6V8a3 3 0 0 1 3-3h6.6"/></svg>`,
+    bed: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" stroke-linecap="round"/><path d="M3 14h18M3 18v2M21 18v2"/><path d="M7 10V8a2 2 0 0 1 2-2h2v4"/></svg>`,
+    ticket: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4Z"/><path d="M14 6v12" stroke-dasharray="2 2.5"/></svg>`,
+    info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg>`,
+    plane: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.5 13.5 3 11l1-2 7 1 4.5-5.5a2 2 0 0 1 3 2.5L13 12l1 7-2 1-2.5-6.5Z" stroke-linejoin="round"/></svg>`,
+    car: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><path d="M4 11h16a1 1 0 0 1 1 1v4H3v-4a1 1 0 0 1 1-1Z"/><circle cx="7" cy="16.5" r="1.4"/><circle cx="17" cy="16.5" r="1.4"/></svg>`,
+    train: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="6" y="3" width="12" height="13" rx="3"/><path d="M6 10h12M9 20l-2 2M15 20l2 2"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/></svg>`,
+    fork: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 3v7a2 2 0 0 0 4 0V3M8 11v10M16 3c-1.5 0-2 2-2 4s.5 4 2 4m0 0V3m0 12v6" stroke-linecap="round"/></svg>`,
+    mountain: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 19 6-11 4 7 2-3 6 7z" stroke-linejoin="round"/></svg>`,
+    pin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>`,
+    star: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m12 3 2.6 5.5 6 .8-4.4 4.2 1.1 6L12 16.8 6.7 19.5l1.1-6L3.4 9.3l6-.8L12 3Z" stroke-linejoin="round"/></svg>`,
+    check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4 10-11" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    chev: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6" stroke-linecap="round"/></svg>`,
+    phone: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 4h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5V21a2 2 0 0 1-2 2C9 23 1 15 1 5a2 2 0 0 1 2-2Z" transform="translate(2 0)"/></svg>`,
+    doc: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 3h8l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4h4M8 13h8M8 17h6"/></svg>`,
+    plug: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 3v6M15 3v6M6 9h12v2a6 6 0 0 1-12 0V9ZM12 17v4" stroke-linecap="round"/></svg>`,
+    cash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>`,
+    lang: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>`,
+    clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>`,
+    nav: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11 21 3l-8 18-2-7-8-3Z" stroke-linejoin="round"/></svg>`,
+    bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 8h14l-1 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`,
+  };
+  const typeIcon = { flight: I.plane, drive: I.car, car: I.car, train: I.train, food: I.fork, sight: I.star, hike: I.mountain, stay: I.bed, free: I.star, note: I.info };
+  const typeLabel = { flight: "טיסה", drive: "נסיעה", car: "רכב", train: "רכבת", food: "אוכל", sight: "אתר", hike: "טיול רגלי", stay: "צ׳ק־אין", free: "חופשי", note: "הערה" };
+  const typeColor = { flight: "var(--sky)", drive: "var(--terra)", car: "var(--terra)", train: "var(--plum)", food: "var(--gold)", sight: "var(--terra)", hike: "var(--olive)", stay: "var(--olive)", free: "var(--ink-faint)", note: "var(--ink-faint)" };
+
+  /* ---------------- Helpers ---------------- */
+  const HE_DAYS = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+  const HE_MON = ["ינו'", "פבר'", "מרץ", "אפר'", "מאי", "יוני", "יולי", "אוג'", "ספט'", "אוק'", "נוב'", "דצמ'"];
+  function d(iso) { const [y, m, day] = iso.split("-").map(Number); return new Date(y, m - 1, day); }
+  function fmtDate(iso) { const x = d(iso); return `${x.getDate()} ${HE_MON[x.getMonth()]}`; }
+  function fmtFull(iso) { const x = d(iso); return `יום ${HE_DAYS[x.getDay()]}, ${x.getDate()} ${HE_MON[x.getMonth()]}`; }
+  function regionOf(id) { return T.regions.find(r => r.id === id) || { name: "", color: "var(--ink-faint)" }; }
+  function mapsUrl(it) {
+    if (it.lat && it.lng) return `https://www.google.com/maps/search/?api=1&query=${it.lat},${it.lng}`;
+    const q = encodeURIComponent(it.address || it.place || it.title || "");
+    return `https://www.google.com/maps/search/?api=1&query=${q}`;
+  }
+  function wazeUrl(it) {
+    if (it.lat && it.lng) return `https://waze.com/ul?ll=${it.lat},${it.lng}&navigate=yes`;
+    return `https://waze.com/ul?q=${encodeURIComponent(it.address || it.place || "")}`;
+  }
+  function daysUntil(iso) { const ms = d(iso) - new Date(new Date().toDateString()); return Math.round(ms / 86400000); }
+  function nights(a, b) { return Math.round((d(b) - d(a)) / 86400000); }
+  const esc = s => (s == null ? "" : String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])));
+
+  /* ---------------- Tabs ---------------- */
+  const TABS = [
+    { id: "home", label: "בית", icon: I.home, title: T.meta.title },
+    { id: "itinerary", label: "מסלול", icon: I.route, title: "המסלול" },
+    { id: "stays", label: "לינה", icon: I.bed, title: "לינה" },
+    { id: "tickets", label: "כרטיסים", icon: I.ticket, title: "כרטיסים ומסמכים" },
+    { id: "info", label: "מידע", icon: I.info, title: "מידע שימושי" },
+  ];
+
+  function renderTabs(active) {
+    $("#tabbar").innerHTML = TABS.map(t =>
+      `<button class="tab ${t.id === active ? "is-active" : ""}" data-tab="${t.id}">${t.icon}<span>${t.label}</span></button>`
+    ).join("");
+  }
+
+  /* ---------------- Screens ---------------- */
+  function screenHome() {
+    const left = daysUntil(T.meta.startDate);
+    const totalDays = T.days.length || (nights(T.meta.startDate, T.meta.endDate) + 1);
+    const cd = left > 0 ? `<div class="countdown">${I.plane}<span>עוד</span><b>${left}</b><span>ימים</span></div>`
+      : left === 0 ? `<div class="countdown">${I.star}<b>היום יוצאים!</b></div>` : "";
+
+    const regionChips = T.regions.map(r =>
+      `<span class="chip"><span class="dot" style="background:${r.color}"></span>${esc(r.name)}</span>`).join("");
+
+    // Next up
+    const next = nextItem();
+    const nextCard = next ? `
+      <div class="section-title">${I.star} מה הלאה <small>${esc(fmtFull(next.date))}</small></div>
+      ${itemCard(next.item, next.date)}` : "";
+
+    // Stays summary
+    const stays = (T.lodging || []).map(s => `
+      <div class="list-link" data-go="stays">
+        <div class="ll-ico" style="background:${regionOf(s.region).color}22;color:${regionOf(s.region).color}">${I.bed}</div>
+        <div><div>${esc(s.name)}</div><small>${esc(regionOf(s.region).name)} · ${nights(s.checkIn, s.checkOut)} לילות</small></div>
+        <span class="chev">‹</span>
+      </div>`).join("");
+
+    return `
+      <section class="hero">
+        <div class="hero__kicker">${esc(T.meta.subtitle || "")}</div>
+        <div class="hero__title">${esc(T.meta.title)}</div>
+        <div class="hero__sub">${esc(fmtDate(T.meta.startDate))} – ${esc(fmtDate(T.meta.endDate))} · ${esc(T.meta.homeCity)} ⇄ Italia</div>
+        ${cd}
+        <div class="hero__stats">
+          <div class="hero__stat"><b>${totalDays || "–"}</b><span>ימים</span></div>
+          <div class="hero__stat"><b>${T.regions.length}</b><span>יעדים</span></div>
+          <div class="hero__stat"><b>${(T.lodging || []).length}</b><span>לינות</span></div>
+        </div>
+      </section>
+
+      <div class="chips">${regionChips}</div>
+      ${nextCard}
+
+      <div class="section-title">${I.bed} איפה ישנים</div>
+      ${stays || `<div class="card muted">פרטי הלינה יתווספו מהאישורים.</div>`}
+
+      <div class="section-title">${I.route} מבט מהיר</div>
+      <div class="list-link" data-go="itinerary"><div class="ll-ico" style="background:var(--terra)22;color:var(--terra)">${I.route}</div><div>המסלול המלא<small>יום אחר יום</small></div><span class="chev">‹</span></div>
+      <div class="list-link" data-go="tickets"><div class="ll-ico" style="background:var(--sky)22;color:var(--sky)">${I.ticket}</div><div>כרטיסים ומסמכים<small>טיסות, רכבות, כניסות</small></div><span class="chev">‹</span></div>
+    `;
+  }
+
+  function nextItem() {
+    const today = new Date().toISOString().slice(0, 10);
+    for (const day of T.days) {
+      if (day.date >= today && day.items && day.items.length) return { date: day.date, item: day.items[0] };
+    }
+    return T.days[0] && T.days[0].items[0] ? { date: T.days[0].date, item: T.days[0].items[0] } : null;
+  }
+
+  function itemCard(it, date) {
+    const color = typeColor[it.type] || "var(--terra)";
+    const hasMap = it.lat || it.address || it.place;
+    return `
+      <div class="tl-card" style="--accent:${color}">
+        <div class="tl-time">${esc(it.time || "")} ${it.time ? "·" : ""} <span class="type-badge" style="color:${color};background:${color}1a">${typeIcon[it.type] || ""}${typeLabel[it.type] || ""}</span></div>
+        <div class="tl-title">${esc(it.title)}</div>
+        ${it.place ? `<div class="tl-place">${I.pin}${esc(it.place)}</div>` : ""}
+        ${it.notes ? `<div class="tl-notes">${esc(it.notes)}</div>` : ""}
+        <div class="tl-row">
+          ${hasMap ? `<a class="btn btn--ghost" href="${mapsUrl(it)}" target="_blank" rel="noopener">${I.nav}מפה</a>` : ""}
+          ${it.confirmation ? `<span class="btn" style="pointer-events:none">אישור: ${esc(it.confirmation)}</span>` : ""}
+        </div>
+      </div>`;
+  }
+
+  let activeDayIdx = 0;
+  function screenItinerary() {
+    if (!T.days.length) return emptyState("המסלול יתווסף בקרוב", "הזמן שובל הימים יופיע כאן עם כל הפעילויות.");
+    // ensure active day is today-or-next on first open
+    if (screenItinerary._init !== true) {
+      const today = new Date().toISOString().slice(0, 10);
+      const idx = T.days.findIndex(x => x.date >= today);
+      activeDayIdx = idx >= 0 ? idx : 0; screenItinerary._init = true;
+    }
+    const strip = T.days.map((day, i) => {
+      const x = d(day.date);
+      return `<button class="daypill ${i === activeDayIdx ? "is-active" : ""}" data-day="${i}">
+        <small>${esc(HE_MON[x.getMonth()])}</small><b>${x.getDate()}</b><span class="wd">${esc(HE_DAYS[x.getDay()])}</span>
+      </button>`;
+    }).join("");
+
+    const day = T.days[activeDayIdx];
+    const reg = regionOf(day.region);
+    const items = (day.items || []).map(it => `<div class="tl-item" style="--accent:${typeColor[it.type] || "var(--terra)"}">${itemCard(it, day.date)}</div>`).join("");
+
+    return `
+      <div class="daystrip">${strip}</div>
+      <div class="day-head">
+        <h2>${esc(day.title || fmtFull(day.date))}</h2>
+        <span class="city" style="color:${reg.color}">● ${esc(reg.name)}</span>
+      </div>
+      <div class="timeline">${items || `<div class="card muted">אין פעילויות מתוכננות — יום חופשי 🌿</div>`}</div>
+    `;
+  }
+
+  function screenStays() {
+    if (!(T.lodging || []).length) return emptyState("פרטי הלינה בדרך", "האישורים מ-Booking/Airbnb יוצגו כאן.");
+    return T.lodging.map(s => {
+      const reg = regionOf(s.region);
+      return `
+      <div class="stay">
+        <div class="stay__top">
+          <span class="stay__city" style="background:${reg.color}">${esc(reg.name)}</span>
+          <div class="eyebrow">${nights(s.checkIn, s.checkOut)} לילות</div>
+          <div class="stay__name">${esc(s.name)}</div>
+          <div class="stay__addr">${I.pin} ${esc(s.address || "")}</div>
+        </div>
+        <div class="stay__dates">
+          <div class="stay__date"><small>צ׳ק־אין</small><b>${esc(fmtDate(s.checkIn))}</b><small>${esc(s.checkInTime || "")}</small></div>
+          <div class="stay__arrow">←</div>
+          <div class="stay__date"><small>צ׳ק־אאוט</small><b>${esc(fmtDate(s.checkOut))}</b><small>${esc(s.checkOutTime || "")}</small></div>
+        </div>
+        <div class="stay__meta">
+          ${s.guests ? `<span class="kv">${s.guests} אורחים</span>` : ""}
+          ${s.confirmation ? `<span class="kv">אישור ${esc(s.confirmation)}</span>` : ""}
+          ${s.host ? `<span class="kv">מארח: ${esc(s.host)}</span>` : ""}
+          ${s.notes ? `<span class="kv">${esc(s.notes)}</span>` : ""}
+        </div>
+        <div class="stay__actions">
+          <a class="btn btn--accent" href="${mapsUrl(s)}" target="_blank" rel="noopener">${I.nav} ניווט</a>
+          ${s.phone ? `<a class="btn" href="tel:${esc(s.phone)}">${I.phone} התקשר</a>` : ""}
+          ${s.bookingUrl ? `<a class="btn" href="${esc(s.bookingUrl)}" target="_blank" rel="noopener">${I.doc} הזמנה</a>` : ""}
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  function screenTickets() {
+    const t = T.tickets || [];
+    if (!t.length) return emptyState("הכרטיסים בדרך", "טיסות, רכבות וכרטיסי כניסה יופיעו כאן.");
+    return t.map(k => {
+      const ic = typeIcon[k.category] || I.ticket;
+      const route = (k.from || k.to) ? `
+        <div class="ticket__route">
+          <div class="ticket__node"><b>${esc(k.from || "")}</b><small>${esc(k.fromName || "")}</small></div>
+          <div class="ticket__line"></div>
+          <div class="ticket__node" style="text-align:end"><b>${esc(k.to || "")}</b><small>${esc(k.toName || "")}</small></div>
+        </div>` : "";
+      return `
+      <div class="ticket">
+        <div class="ticket__bar" style="background:${typeColor[k.category] || "var(--terra)"}"></div>
+        <div class="ticket__body">
+          <div class="ticket__head">
+            <div class="ticket__icon">${ic}</div>
+            <div><div class="ticket__title">${esc(k.title)}</div><div class="ticket__sub">${esc(fmtFull(k.date))}${k.time ? " · " + esc(k.time) : ""}</div></div>
+          </div>
+          ${route}
+          ${k.notes ? `<div class="tl-notes">${esc(k.notes)}</div>` : ""}
+          <div class="ticket__perf">
+            <span class="ticket__conf">קוד הזמנה: <b>${esc(k.confirmation || "—")}</b></span>
+            ${k.url ? `<a class="btn btn--ghost" href="${esc(k.url)}" target="_blank" rel="noopener">פתיחה</a>` : ""}
+          </div>
+        </div>
+      </div>`;
+    }).join("") + documentsBlock();
+  }
+
+  function documentsBlock() {
+    const docs = T.documents || [];
+    if (!docs.length) return "";
+    return `<div class="section-title">${I.doc} מסמכים</div>` + docs.map(dc =>
+      `<a class="list-link" href="${esc(dc.url)}" target="_blank" rel="noopener">
+        <div class="ll-ico" style="background:var(--ink)11;color:var(--ink)">${I.doc}</div>
+        <div>${esc(dc.name)}<small>${esc(dc.note || "")}</small></div><span class="chev">‹</span>
+      </a>`).join("");
+  }
+
+  function screenInfo() {
+    const facts = (T.facts || []).map(f =>
+      `<div class="info-tile"><div class="ico">${I[f.icon] || I.info}</div><b style="font-size:16px">${esc(f.value)}</b><span>${esc(f.label)}</span></div>`).join("");
+
+    const contacts = (T.contacts || []).map(c =>
+      `<a class="list-link" href="tel:${esc(c.value)}"><div class="ll-ico" style="background:var(--terra)18;color:var(--terra)">${I.phone}</div><div>${esc(c.label)}<small>${esc(c.value)}</small></div><span class="chev">‹</span></a>`).join("");
+
+    const tips = (T.tips || []).map((tp, i) =>
+      `<div class="acc-item" data-acc="${i}">
+        <button class="acc-head">${esc(tp.q)}<span class="tw">${I.chev}</span></button>
+        <div class="acc-body"><div class="acc-body-inner">${esc(tp.a)}</div></div>
+      </div>`).join("");
+
+    const packing = (T.packing || []).map((p, i) =>
+      `<li data-pack="${i}"><span class="box">${I.check}</span><span class="label">${esc(p)}</span></li>`).join("");
+
+    return `
+      <div class="section-title" style="margin-top:6px">${I.info} מבט מהיר</div>
+      <div class="info-grid">${facts}</div>
+
+      <div class="section-title">${I.phone} טלפונים חשובים</div>
+      ${contacts}
+
+      <div class="section-title">${I.star} טיפים</div>
+      <div class="accordion">${tips}</div>
+
+      <div class="section-title">${I.bag} רשימת ציוד <small>נשמר במכשיר</small></div>
+      <ul class="check" id="packlist">${packing}</ul>
+    `;
+  }
+
+  function emptyState(title, sub) {
+    return `<div class="empty">${I.route}<h3 style="margin:0 0 6px">${esc(title)}</h3><p class="faint">${esc(sub)}</p></div>`;
+  }
+
+  /* ---------------- Router ---------------- */
+  const RENDER = { home: screenHome, itinerary: screenItinerary, stays: screenStays, tickets: screenTickets, info: screenInfo };
+  let current = "home";
+
+  function go(tab) {
+    if (!RENDER[tab]) tab = "home";
+    current = tab;
+    const def = TABS.find(t => t.id === tab);
+    topTitle.textContent = def ? def.title : T.meta.title;
+    screen.innerHTML = RENDER[tab]();
+    renderTabs(tab);
+    screen.scrollTop = 0; window.scrollTo(0, 0);
+    history.replaceState({ tab }, "", "#" + tab);
+    bindScreen();
+  }
+
+  function bindScreen() {
+    // packing checklist (persisted)
+    const pack = $("#packlist");
+    if (pack) {
+      const saved = JSON.parse(localStorage.getItem("pack") || "{}");
+      pack.querySelectorAll("[data-pack]").forEach(li => {
+        if (saved[li.dataset.pack]) li.classList.add("done");
+        li.addEventListener("click", () => {
+          li.classList.toggle("done");
+          saved[li.dataset.pack] = li.classList.contains("done");
+          localStorage.setItem("pack", JSON.stringify(saved));
+        });
+      });
+    }
+    // accordion
+    screen.querySelectorAll(".acc-item").forEach(item => {
+      const head = item.querySelector(".acc-head");
+      const body = item.querySelector(".acc-body");
+      head.addEventListener("click", () => {
+        const open = item.classList.toggle("open");
+        body.style.maxHeight = open ? body.scrollHeight + "px" : "0";
+      });
+    });
+    // day strip
+    screen.querySelectorAll("[data-day]").forEach(b =>
+      b.addEventListener("click", () => { activeDayIdx = +b.dataset.day; go("itinerary"); }));
+    // internal go links
+    screen.querySelectorAll("[data-go]").forEach(el =>
+      el.addEventListener("click", () => go(el.dataset.go)));
+  }
+
+  /* ---------------- Events ---------------- */
+  document.addEventListener("click", e => {
+    const tab = e.target.closest("[data-tab]");
+    if (tab) go(tab.dataset.tab);
+  });
+
+  /* ---------------- Install prompt ---------------- */
+  let deferred;
+  window.addEventListener("beforeinstallprompt", e => {
+    e.preventDefault(); deferred = e;
+    const b = $("#installBtn"); b.hidden = false;
+    b.onclick = async () => { b.hidden = true; deferred.prompt(); await deferred.userChoice; deferred = null; };
+  });
+
+  /* ---------------- Service worker ---------------- */
+  const isLocal = ["localhost", "127.0.0.1", ""].includes(location.hostname);
+  if ("serviceWorker" in navigator) {
+    if (isLocal) {
+      // Dev: never cache — unregister any existing SW and clear caches.
+      navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
+      if (window.caches) caches.keys().then(ks => ks.forEach(k => caches.delete(k)));
+    } else {
+      window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+    }
+  }
+
+  /* ---------------- Boot ---------------- */
+  const initial = (location.hash || "#home").slice(1);
+  go(RENDER[initial] ? initial : "home");
+})();

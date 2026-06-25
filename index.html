@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
+  <meta name="theme-color" content="#C75D3C" />
+  <title>איטליה 2026</title>
+  <meta name="description" content="כל הפרטים של הטיול שלנו לאיטליה — מסלול, לינה, כרטיסים ומידע חשוב." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-180.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="איטליה 2026" />
+
+  <!-- Fonts (cached by service worker for offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- Header -->
+    <header class="topbar" id="topbar">
+      <button class="topbar__back" id="backBtn" aria-label="חזרה" hidden>‹</button>
+      <div class="topbar__title" id="topbarTitle">איטליה 2026</div>
+      <button class="topbar__action" id="installBtn" aria-label="התקנה" hidden>התקנה</button>
+    </header>
+
+    <!-- Routed content -->
+    <main class="screen" id="screen" tabindex="-1"></main>
+
+    <!-- Bottom navigation -->
+    <nav class="tabbar" id="tabbar" aria-label="ניווט ראשי"></nav>
+  </div>
+
+  <!-- Sheet / modal -->
+  <div class="sheet-backdrop" id="sheetBackdrop" hidden>
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Private trip documents — NEVER deploy these publicly
+trip-data/
+
+# Dev-only
+.claude/
+*.output
+__pycache__/
+*.pyc
