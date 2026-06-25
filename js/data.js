@@ -168,7 +168,7 @@ const TRIP = {
   /* ---------------- לינה ---------------- */
   lodging: [
     {
-      id: "milan", name: "Design Loft — Molino13", region: "milan",
+      id: "milan", name: "Design Loft — Molino13", region: "milan", img: "photos/places/galleria.jpg",
       checkIn: "2026-08-13", checkOut: "2026-08-15", checkInTime: "15:00", checkOutTime: "11:00",
       address: "Via Molino delle Armi 13, Milano 20123", guests: 5,
       confirmation: "Airbnb · Vikey DB36XYNA", phone: "+393899085093", host: "פרנצ׳סקו",
@@ -176,14 +176,14 @@ const TRIP = {
       bookingUrl: "https://guest.vikey.it/checkin/DB36XYNA", linkLabel: "צ׳ק-אין מקוון (Vikey)", doc: "docs/lodging-milan.pdf",
     },
     {
-      id: "garda", name: "Porto Vecchio Appartamenti", region: "garda",
+      id: "garda", name: "Porto Vecchio Appartamenti", region: "garda", img: "photos/places/lazise.jpg",
       checkIn: "2026-08-15", checkOut: "2026-08-19", checkInTime: "16:00", checkOutTime: "10:00",
       address: "via Francesco Fontana 14, 37017 Lazise VR", guests: 5,
       confirmation: "Booking 5381027177", phone: "+393388253215", host: "מישהו ייפגוש אתכם במקום",
       notes: "דירת פנטהאוז · 4 לילות · שולם מראש €1,410.87", doc: "docs/lodging-garda.pdf",
     },
     {
-      id: "dolomites", name: "Hotel Touring Val Gardena", region: "dolomites",
+      id: "dolomites", name: "Hotel Touring Val Gardena", region: "dolomites", img: "photos/places/valgardena.jpg",
       checkIn: "2026-08-19", checkOut: "2026-08-23", checkInTime: "15:00", checkOutTime: "10:00",
       address: "Via Dursan 71, Santa Cristina Valgardena (BZ)", guests: 5,
       confirmation: "3259471", phone: "+390471793119", host: "Hotel Touring",
@@ -191,7 +191,7 @@ const TRIP = {
       bookingUrl: "https://www.hoteltouring.bz", linkLabel: "אתר המלון", doc: "docs/lodging-dolomites.pdf",
     },
     {
-      id: "verona", name: "דירה בורונה (לאימות)", region: "verona",
+      id: "verona", name: "דירה בורונה (לאימות)", region: "verona", img: "photos/places/verona.jpg",
       checkIn: "2026-08-23", checkOut: "2026-08-25", checkInTime: "", checkOutTime: "",
       address: "Verona", guests: 5,
       confirmation: "—", phone: "", host: "",

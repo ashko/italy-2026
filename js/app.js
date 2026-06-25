@@ -263,32 +263,39 @@
 
   /* ---------------- Recommendations screen ---------------- */
   let activeRecRegion = (T.regions[0] && T.regions[0].id) || "milan";
-  function recKidCard(k, color) {
-    return `<div class="rec" style="--rc:${color}">
-      <div class="rec__head"><div class="rec__name">${esc(k.name)}</div>${stars(k.rating)}</div>
-      <div class="rec__tags">
-        <span class="rec__tag">${esc(k.cat)}</span>
-        <span class="rec__tag rec__age">גיל ${esc(k.ages)}</span>
-        <span class="rec__tag" style="color:${levelColor(k.level)};background:${levelColor(k.level)}1a">${esc(k.level)}</span>
-        ${k.price ? `<span class="rec__tag">${esc(k.price)}</span>` : ""}
+  function recKidCard(k, color, rid) {
+    const img = (T.recoImages && T.recoImages[rid + "|" + k.name]) || "";
+    const photo = img ? `<div class="rec__photo"><img loading="lazy" src="${esc(img)}" alt="${esc(k.name)}"></div>` : "";
+    return `<div class="rec ${photo ? "rec--photo" : ""}" style="--rc:${color}">
+      ${photo}
+      <div class="rec__body">
+        <div class="rec__head"><div class="rec__name">${esc(k.name)}</div>${stars(k.rating)}</div>
+        <div class="rec__tags">
+          <span class="rec__tag">${esc(k.cat)}</span>
+          <span class="rec__tag rec__age">גיל ${esc(k.ages)}</span>
+          <span class="rec__tag" style="color:${levelColor(k.level)};background:${levelColor(k.level)}1a">${esc(k.level)}</span>
+          ${k.price ? `<span class="rec__tag">${esc(k.price)}</span>` : ""}
+        </div>
+        <div class="rec__why">${esc(k.why)}</div>
+        ${k.tip ? `<div class="rec__tip">💡 ${esc(k.tip)}</div>` : ""}
+        <div class="rec__foot"><span class="rec__town">${I.pin}${esc(k.town)}</span>
+          <a class="btn btn--ghost" href="${qUrl(k.q)}" target="_blank" rel="noopener">${I.nav} מפה</a></div>
       </div>
-      <div class="rec__why">${esc(k.why)}</div>
-      ${k.tip ? `<div class="rec__tip">💡 ${esc(k.tip)}</div>` : ""}
-      <div class="rec__foot"><span class="rec__town">${I.pin}${esc(k.town)}</span>
-        <a class="btn btn--ghost" href="${qUrl(k.q)}" target="_blank" rel="noopener">${I.nav} מפה</a></div>
     </div>`;
   }
   function recFoodCard(f, color) {
     return `<div class="rec rec--food" style="--rc:${color}">
-      <div class="rec__head"><div class="rec__name">${esc(f.name)}</div>${stars(f.rating)}</div>
-      <div class="rec__tags">
-        <span class="rec__tag rec__meal">${esc(f.meal)}</span>
-        <span class="rec__tag">${esc(f.cuisine)}</span>
-        <span class="rec__tag">${esc(f.price)}${f.per ? " · " + esc(f.per) : ""}</span>
+      <div class="rec__body">
+        <div class="rec__head"><div class="rec__name">${esc(f.name)}</div>${stars(f.rating)}</div>
+        <div class="rec__tags">
+          <span class="rec__tag rec__meal">${esc(f.meal)}</span>
+          <span class="rec__tag">${esc(f.cuisine)}</span>
+          <span class="rec__tag">${esc(f.price)}${f.per ? " · " + esc(f.per) : ""}</span>
+        </div>
+        <div class="rec__why">${esc(f.why)}</div>
+        <div class="rec__foot"><span class="rec__town">${I.pin}${esc(f.town)}</span>
+          <a class="btn btn--ghost" href="${qUrl(f.q)}" target="_blank" rel="noopener">${I.nav} מפה</a></div>
       </div>
-      <div class="rec__why">${esc(f.why)}</div>
-      <div class="rec__foot"><span class="rec__town">${I.pin}${esc(f.town)}</span>
-        <a class="btn btn--ghost" href="${qUrl(f.q)}" target="_blank" rel="noopener">${I.nav} מפה</a></div>
     </div>`;
   }
   function screenRecommendations() {
@@ -297,7 +304,7 @@
       `<button class="recreg ${r.id === activeRecRegion ? "is-active" : ""}" data-recreg="${r.id}" style="--rc:${r.color}">${esc(r.name)}</button>`).join("");
     const data = recs[activeRecRegion] || { kids: [], food: [] };
     const color = regionOf(activeRecRegion).color;
-    const kids = (data.kids || []).map(k => recKidCard(k, color)).join("");
+    const kids = (data.kids || []).map(k => recKidCard(k, color, activeRecRegion)).join("");
     const food = (data.food || []).map(f => recFoodCard(f, color)).join("");
     return `
       <div class="recreg-row">${switcher}</div>
@@ -324,6 +331,7 @@
       const reg = regionOf(s.region);
       return `
       <div class="stay">
+        ${s.img ? `<div class="stay__photo"><img loading="lazy" src="${esc(s.img)}" alt="${esc(s.name)}"></div>` : ""}
         <div class="stay__top">
           <span class="stay__city" style="background:${reg.color}">${esc(reg.name)}</span>
           <div class="eyebrow">${nights(s.checkIn, s.checkOut)} לילות</div>

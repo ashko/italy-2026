@@ -230,4 +230,36 @@
       { meal: "צהריים", name: "ארוחה קלה בדרך לשדה התעופה", note: "לפני החזרת הרכב והטיסה." },
     ],
   };
+
+  /* תמונות לאטרקציות (מפתח: "אזור|שם"). חלקן בשימוש חוזר מתמונות המסלול. */
+  T.recoImages = {
+    "milan|Leolandia": "photos/recos/leolandia.jpg",
+    "milan|מוזיאון המדע ע\"ש לאונרדו דה וינצ׳י": "photos/recos/museoscienza.jpg",
+    "milan|מוזיאון הטבע": "photos/recos/storianaturalemi.jpg",
+    "milan|Highline Galleria": "photos/places/galleria.jpg",
+    "milan|אקווריום מילאנו": "photos/recos/acquariomi.jpg",
+
+    "garda|Caneva Aquapark": "photos/recos/caneva.jpg",
+    "garda|Movieland Park": "photos/recos/movieland.jpg",
+    "garda|Parco Natura Viva": "photos/recos/naturaviva.jpg",
+    "garda|שייט מפסקיירה לסירמיונה": "photos/places/peschiera.jpg",
+    "garda|סירמיונה + חוף Jamaica": "photos/places/sirmione.jpg",
+    "garda|Legoland Water Park": "photos/places/gardaland.jpg",
+
+    "dolomites|רכבל Col Raiser": "photos/places/odle.jpg",
+    "dolomites|רכבל Seceda": "photos/places/seceda.jpg",
+    "dolomites|Alpe di Siusi (Mont Sëuc)": "photos/places/alpedisiusi.jpg",
+    "dolomites|שביל המכשפות (Sentiero delle Streghe)": "photos/places/alpedisiusi.jpg",
+    "dolomites|פוניקולר Resciesa": "photos/places/ortisei.jpg",
+    "dolomites|Trail Arena (Bike Park)": "photos/places/valgardena.jpg",
+    "dolomites|אגם Carezza (Karersee)": "photos/places/carezza.jpg",
+
+    "verona|Gardaland Resort": "photos/places/gardaland.jpg",
+    "verona|Parco Natura Viva": "photos/recos/naturaviva.jpg",
+    "verona|Parco Giardino Sigurtà": "photos/recos/sigurta.jpg",
+    "verona|Torre dei Lamberti": "photos/recos/lamberti.jpg",
+    "verona|פוניקולר Castel San Pietro": "photos/recos/castelsanpietro.jpg",
+    "verona|Caneva Aquapark": "photos/recos/caneva.jpg",
+    "verona|Casa di Giulietta": "photos/places/giulietta.jpg",
+  };
 })();

@@ -345,10 +345,13 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 /* ---------- Lodging cards ---------- */
 .stay {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
-  box-shadow: var(--sh-1); overflow: hidden;
+  box-shadow: var(--sh-1); overflow: hidden; position: relative;
 }
 .stay + .stay { margin-top: 14px; }
-.stay__top { padding: 16px 16px 12px; position: relative; }
+.stay__photo { aspect-ratio: 16 / 9; background: var(--cream-2); }
+.stay__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.stay__photo::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 56%; background: linear-gradient(rgba(0,0,0,.28), transparent); }
+.stay__top { padding: 16px 16px 12px; position: static; }
 .stay__city {
   position: absolute; top: 14px; inset-inline-end: 14px;
   font-size: 11px; font-weight: 800; color: #fff; background: var(--olive);
@@ -451,9 +454,12 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 
 .rec {
   background: var(--surface); border: 1px solid var(--line); border-inline-start: 4px solid var(--rc);
-  border-radius: var(--r-md); box-shadow: var(--sh-1); padding: 14px;
+  border-radius: var(--r-md); box-shadow: var(--sh-1); padding: 0; overflow: hidden;
 }
 .rec + .rec { margin-top: 10px; }
+.rec__body { padding: 14px; }
+.rec__photo { aspect-ratio: 16 / 9; background: var(--cream-2); }
+.rec__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .rec__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
 .rec__name { font-size: 16px; font-weight: 800; letter-spacing: -.2px; line-height: 1.25; }
 .rate { flex: 0 0 auto; font-size: 12.5px; font-weight: 800; color: var(--gold); background: color-mix(in srgb, var(--gold) 15%, transparent); padding: 3px 9px; border-radius: var(--r-pill); white-space: nowrap; }
