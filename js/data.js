@@ -12,6 +12,8 @@ const TRIP = {
     endDate: "2026-08-25",
     travelers: ["2 מבוגרים", "3 ילדים"],
     homeCity: "תל אביב",
+    // קוד כניסה (4 ספרות). לשינוי — ערכו כאן. אבטחה בסיסית בלבד (האפליקציה ציבורית).
+    passcode: "1325",
   },
 
   regions: [
@@ -56,7 +58,7 @@ const TRIP = {
         { time: "12:00", type: "drive", title: "נסיעה ללאזיסה (~1.5 ש׳)", place: "מילאנו → Lazise, אגם גארדה",
           address: "Lazise VR Italia", notes: "כ-150 ק\"מ. שימו לב לכבישי אגרה (Autostrada) ולאזורי ZTL במרכזי ערים." },
         { time: "16:00–17:00", type: "stay", title: "צ׳ק-אין — Porto Vecchio Appartamenti", place: "via Francesco Fontana 14, Lazise",
-          address: "via Francesco Fontana 14, 37017 Lazise VR", notes: "מישהו ייפגוש אתכם במקום. דירת פנטהאוז, 4 לילות. טלפון מארח: +39 338 825 3215. קוד הזמנה סודי: 2050.", confirmation: "5381027177" },
+          address: "via Francesco Fontana 14, 37017 Lazise VR", notes: "מישהו ייפגוש אתכם במקום. דירת פנטהאוז, 4 לילות. טלפון מארח: +39 338 825 3215.", confirmation: "5381027177" },
         { time: "אחה\"צ", type: "sight", title: "טיילת האגם וחוף בלאזיסה", place: "Lungolago di Lazise",
           address: "Lungolago Marconi Lazise", notes: "עיירת חומה ציורית על שפת האגם — טיילת, גלידה, רחצה ראשונה." },
       ],
@@ -172,7 +174,7 @@ const TRIP = {
       id: "garda", name: "Porto Vecchio Appartamenti", region: "garda",
       checkIn: "2026-08-15", checkOut: "2026-08-19", checkInTime: "16:00", checkOutTime: "10:00",
       address: "via Francesco Fontana 14, 37017 Lazise VR", guests: 5,
-      confirmation: "Booking 5381027177 · PIN 2050", phone: "+393388253215", host: "מישהו ייפגוש אתכם במקום",
+      confirmation: "Booking 5381027177", phone: "+393388253215", host: "מישהו ייפגוש אתכם במקום",
       notes: "דירת פנטהאוז · 4 לילות · שולם מראש €1,410.87",
     },
     {

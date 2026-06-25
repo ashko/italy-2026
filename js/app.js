@@ -355,7 +355,61 @@
     }
   }
 
+  /* ---------------- Passcode gate ---------------- */
+  function bootApp() {
+    document.getElementById("app").hidden = false;
+    const initial = (location.hash || "#home").slice(1);
+    go(RENDER[initial] ? initial : "home");
+  }
+
+  function initLock(onUnlock) {
+    const code = String((T.meta && T.meta.passcode) || "").trim();
+    const KEY = "unlocked_v1";
+    if (!code || localStorage.getItem(KEY) === code) { onUnlock(); return; }
+
+    const lock = document.getElementById("lock");
+    const dotsWrap = document.getElementById("lockDots");
+    const pad = document.getElementById("lockPad");
+    const err = document.getElementById("lockErr");
+    lock.hidden = false;
+    let entry = "";
+
+    const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "⌫"];
+    pad.innerHTML = keys.map(k =>
+      k === "" ? `<span></span>` :
+      `<button class="lock__key ${k === "⌫" ? "lock__key--fn" : ""}" data-k="${k}">${k}</button>`
+    ).join("");
+
+    function paint() {
+      [...dotsWrap.children].forEach((d, i) => d.classList.toggle("on", i < entry.length));
+    }
+    function fail() {
+      lock.classList.add("shake"); err.textContent = "קוד שגוי, נסו שוב";
+      setTimeout(() => { lock.classList.remove("shake"); entry = ""; paint(); }, 450);
+    }
+    function success() {
+      localStorage.setItem(KEY, code);
+      lock.style.transition = "opacity .35s"; lock.style.opacity = "0";
+      setTimeout(() => { lock.hidden = true; lock.style.opacity = ""; onUnlock(); }, 350);
+    }
+
+    pad.addEventListener("click", e => {
+      const b = e.target.closest("[data-k]"); if (!b) return;
+      const k = b.dataset.k;
+      err.textContent = "";
+      if (k === "⌫") { entry = entry.slice(0, -1); paint(); return; }
+      if (entry.length >= 4) return;
+      entry += k; paint();
+      if (entry.length === 4) setTimeout(() => entry === code ? success() : fail(), 140);
+    });
+    // physical keyboard support
+    window.addEventListener("keydown", e => {
+      if (lock.hidden) return;
+      if (/^[0-9]$/.test(e.key) && entry.length < 4) { entry += e.key; paint(); if (entry.length === 4) setTimeout(() => entry === code ? success() : fail(), 140); }
+      else if (e.key === "Backspace") { entry = entry.slice(0, -1); paint(); }
+    });
+  }
+
   /* ---------------- Boot ---------------- */
-  const initial = (location.hash || "#home").slice(1);
-  go(RENDER[initial] ? initial : "home");
+  initLock(bootApp);
 })();

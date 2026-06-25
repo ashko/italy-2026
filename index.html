@@ -22,7 +22,19 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <div id="app" class="app">
+  <!-- Passcode lock -->
+  <div class="lock" id="lock" hidden>
+    <div class="lock__card">
+      <div class="lock__badge">🇮🇹</div>
+      <h1 class="lock__title">איטליה 2026</h1>
+      <p class="lock__sub">הזינו את קוד הכניסה</p>
+      <div class="lock__dots" id="lockDots"><span></span><span></span><span></span><span></span></div>
+      <div class="lock__pad" id="lockPad"></div>
+      <div class="lock__err" id="lockErr"></div>
+    </div>
+  </div>
+
+  <div id="app" class="app" hidden>
     <!-- Header -->
     <header class="topbar" id="topbar">
       <button class="topbar__back" id="backBtn" aria-label="חזרה" hidden>‹</button>
