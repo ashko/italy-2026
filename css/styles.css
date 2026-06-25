@@ -297,9 +297,27 @@ svg { width: 1.2em; height: 1.2em; flex: none; vertical-align: -.18em; }
 }
 .tl-card {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
-  box-shadow: var(--sh-1); padding: 13px 14px; transition: transform .12s, box-shadow .2s;
+  box-shadow: var(--sh-1); padding: 0; overflow: hidden; transition: transform .12s, box-shadow .2s;
 }
 .tl-card:active { transform: scale(.985); }
+.tl-card__body { padding: 13px 14px; }
+.tl-photo { position: relative; aspect-ratio: 16 / 9; background: var(--cream-2); }
+.tl-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tl-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 50%, rgba(0,0,0,.6)); }
+.tl-photo__cap { position: absolute; bottom: 9px; inset-inline-start: 12px; z-index: 1; color: #fff; font-family: var(--display); font-weight: 800; font-size: 16px; text-shadow: 0 1px 8px rgba(0,0,0,.55); }
+.tl-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.55; margin-top: 7px; }
+
+.ticketinfo {
+  margin-top: 11px; border-radius: var(--r-md); padding: 11px 12px;
+  background: color-mix(in srgb, var(--terra) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--terra) 20%, transparent);
+}
+.ticketinfo__head { display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 800; color: var(--terra-dk); }
+.ticketinfo__head svg { width: 16px; height: 16px; }
+.ticketinfo__ahead { margin-inline-start: auto; font-size: 10.5px; font-weight: 800; color: #fff; background: var(--warn); padding: 3px 8px; border-radius: var(--r-pill); }
+.ticketinfo__price { font-size: 12.5px; font-weight: 600; color: var(--ink); margin: 8px 0; line-height: 1.55; }
+.ticketinfo__price b { color: var(--olive-dk); }
+.ticketinfo__coupon { font-size: 12.5px; color: var(--ink-soft); background: color-mix(in srgb, var(--gold) 13%, transparent); border-radius: var(--r-sm); padding: 8px 10px; line-height: 1.5; margin-bottom: 10px; }
 .tl-time { font-size: 12.5px; font-weight: 800; color: var(--terra); letter-spacing: .02em; }
 .tl-title { font-size: 16px; font-weight: 800; margin: 2px 0 3px; letter-spacing: -.2px; }
 .tl-place { font-size: 13px; color: var(--ink-soft); font-weight: 600; display: flex; align-items: center; gap: 5px; }

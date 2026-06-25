@@ -146,18 +146,36 @@
     return T.days[0] && T.days[0].items[0] ? { date: T.days[0].date, item: T.days[0].items[0] } : null;
   }
 
+  function ticketBlock(tk) {
+    return `<div class="ticketinfo">
+      <div class="ticketinfo__head">${I.ticket}<b>כרטיסים</b>${tk.bookAhead ? `<span class="ticketinfo__ahead">להזמין מראש</span>` : ""}</div>
+      <div class="ticketinfo__price">${esc(tk.price)}${tk.freeAge ? ` <b>· ${esc(tk.freeAge)}</b>` : ""}</div>
+      ${tk.coupon ? `<div class="ticketinfo__coupon">🎟️ ${esc(tk.coupon)}</div>` : ""}
+      ${tk.url ? `<a class="btn btn--accent btn-block" href="${esc(tk.url)}" target="_blank" rel="noopener">${I.ticket} לרכישת כרטיסים</a>` : ""}
+    </div>`;
+  }
   function itemCard(it, date) {
     const color = typeColor[it.type] || "var(--terra)";
     const hasMap = it.lat || it.address || it.place;
+    const place = (it.pid && T.places) ? T.places[it.pid] : null;
+    const photo = place && place.img
+      ? `<div class="tl-photo"><img loading="lazy" src="${esc(place.img)}" alt="${esc(place.name || "")}"><span class="tl-photo__cap">${esc(place.name || "")}</span></div>` : "";
+    const desc = place && place.desc ? `<div class="tl-desc">${esc(place.desc)}</div>` : "";
+    const ticket = place && place.ticket ? ticketBlock(place.ticket) : "";
     return `
-      <div class="tl-card" style="--accent:${color}">
-        <div class="tl-time">${esc(it.time || "")} ${it.time ? "·" : ""} <span class="type-badge" style="color:${color};background:${color}1a">${typeIcon[it.type] || ""}${typeLabel[it.type] || ""}</span></div>
-        <div class="tl-title">${esc(it.title)}</div>
-        ${it.place ? `<div class="tl-place">${I.pin}${esc(it.place)}</div>` : ""}
-        ${it.notes ? `<div class="tl-notes">${esc(it.notes)}</div>` : ""}
-        <div class="tl-row">
-          ${hasMap ? `<a class="btn btn--ghost" href="${mapsUrl(it)}" target="_blank" rel="noopener">${I.nav}מפה</a>` : ""}
-          ${it.confirmation ? `<span class="btn" style="pointer-events:none">אישור: ${esc(it.confirmation)}</span>` : ""}
+      <div class="tl-card ${photo ? "tl-card--photo" : ""}" style="--accent:${color}">
+        ${photo}
+        <div class="tl-card__body">
+          <div class="tl-time">${esc(it.time || "")} ${it.time ? "·" : ""} <span class="type-badge" style="color:${color};background:${color}1a">${typeIcon[it.type] || ""}${typeLabel[it.type] || ""}</span></div>
+          <div class="tl-title">${esc(it.title)}</div>
+          ${it.place ? `<div class="tl-place">${I.pin}${esc(it.place)}</div>` : ""}
+          ${desc}
+          ${it.notes ? `<div class="tl-notes">${esc(it.notes)}</div>` : ""}
+          ${ticket}
+          <div class="tl-row">
+            ${hasMap ? `<a class="btn btn--ghost" href="${mapsUrl(it)}" target="_blank" rel="noopener">${I.nav}מפה</a>` : ""}
+            ${it.confirmation ? `<span class="btn" style="pointer-events:none">אישור: ${esc(it.confirmation)}</span>` : ""}
+          </div>
         </div>
       </div>`;
   }

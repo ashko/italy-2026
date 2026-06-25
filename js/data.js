@@ -39,13 +39,13 @@ const TRIP = {
     {
       date: "2026-08-14", region: "milan", title: "יום במילאנו",
       items: [
-        { time: "בוקר", type: "sight", title: "הדואומו של מילאנו", place: "Piazza del Duomo",
+        { time: "בוקר", type: "sight", pid: "duomo", title: "הדואומו של מילאנו", place: "Piazza del Duomo",
           address: "Duomo di Milano", notes: "כדאי להזמין כרטיסים מראש (כולל עלייה לגג). הכניסה דורשת לבוש צנוע (כתפיים/ברכיים מכוסות)." },
-        { time: "", type: "sight", title: "גלריה ויטוריו אמנואלה II", place: "ליד הדואומו",
+        { time: "", type: "sight", pid: "galleria", title: "גלריה ויטוריו אמנואלה II", place: "ליד הדואומו",
           address: "Galleria Vittorio Emanuele II Milano", notes: "מעבר קניות מקורה היסטורי — סיבוב קצר וצילומים." },
-        { time: "צהריים", type: "food", title: "גלידה איטלקית + פארק סמפיונה", place: "Parco Sempione / Castello Sforzesco",
+        { time: "צהריים", type: "food", pid: "sforzesco", title: "גלידה איטלקית + פארק סמפיונה", place: "Parco Sempione / Castello Sforzesco",
           address: "Parco Sempione Milano", notes: "פארק ענק לצד טירת ספורצסקו — מושלם להפוגה עם הילדים." },
-        { time: "אופציונלי", type: "sight", title: "סיור אצטדיון סן סירו", place: "Stadio San Siro",
+        { time: "אופציונלי", type: "sight", pid: "sansiro", title: "סיור אצטדיון סן סירו", place: "Stadio San Siro",
           address: "Stadio San Siro Milano", notes: "סיור מאחורי הקלעים + מוזיאון (מילאן/אינטר). להזמין מראש." },
       ],
     },
@@ -59,21 +59,21 @@ const TRIP = {
           address: "Lazise VR Italia", notes: "כ-150 ק\"מ. שימו לב לכבישי אגרה (Autostrada) ולאזורי ZTL במרכזי ערים." },
         { time: "16:00–17:00", type: "stay", title: "צ׳ק-אין — Porto Vecchio Appartamenti", place: "via Francesco Fontana 14, Lazise",
           address: "via Francesco Fontana 14, 37017 Lazise VR", notes: "מישהו ייפגוש אתכם במקום. דירת פנטהאוז, 4 לילות. טלפון מארח: +39 338 825 3215.", confirmation: "5381027177" },
-        { time: "אחה\"צ", type: "sight", title: "טיילת האגם וחוף בלאזיסה", place: "Lungolago di Lazise",
+        { time: "אחה\"צ", type: "sight", pid: "lazise", title: "טיילת האגם וחוף בלאזיסה", place: "Lungolago di Lazise",
           address: "Lungolago Marconi Lazise", notes: "עיירת חומה ציורית על שפת האגם — טיילת, גלידה, רחצה ראשונה." },
       ],
     },
     {
       date: "2026-08-16", region: "garda", title: "גרדהלנד — יום מלא",
       items: [
-        { time: "כל היום", type: "sight", title: "Gardaland Resort", place: "פארק השעשועים הגדול באיטליה",
+        { time: "כל היום", type: "sight", pid: "gardaland", title: "Gardaland Resort", place: "פארק השעשועים הגדול באיטליה",
           address: "Gardaland Castelnuovo del Garda", notes: "להגיע עם הפתיחה (בד\"כ 10:00). כרטיסים מראש באתר חוסכים תור וזול יותר. יש גם Gardaland SEA LIFE לצד הפארק." },
       ],
     },
     {
       date: "2026-08-17", region: "garda", title: "סביב אגם גארדה",
       items: [
-        { time: "בוקר", type: "sight", title: "סירמיונה — טירת סקליגרי", place: "Sirmione",
+        { time: "בוקר", type: "sight", pid: "sirmione", title: "סירמיונה — טירת סקליגרי", place: "Sirmione",
           address: "Castello Scaligero Sirmione", notes: "חצי-אי קסום בלב האגם: טירה על המים, סמטאות, וחוף Jamaica Beach בקצה. ~30 דק׳ נסיעה." },
         { time: "אחה\"צ", type: "free", title: "שייט / חוף ושחייה", place: "אגם גארדה",
           notes: "שייט קצר בין העיירות (Bardolino / Garda) או יום רגוע בחוף ליד הדירה." },
@@ -87,7 +87,7 @@ const TRIP = {
           notes: "מתחילים את היום עם הפתעה/מתנה קטנה ושיר יום הולדת. היום של אוריקי!" },
         { time: "", type: "free", title: "חוף, שחייה ואופניים בטיילת", place: "Lazise / Bardolino",
           notes: "יום כיפי וקליל לכבוד יום ההולדת — רחצה, קיאקים, אופניים על הטיילת." },
-        { time: "אופציונלי", type: "sight", title: "פשקיירה דל גארדה / פארק מים", place: "Peschiera del Garda",
+        { time: "אופציונלי", type: "sight", pid: "peschiera", title: "פשקיירה דל גארדה / פארק מים", place: "Peschiera del Garda",
           address: "Peschiera del Garda", notes: "עיירת מבצר (אתר אונסק\"ו). באזור גם פארקי מים (Caneva Aquapark) ו-Movieland — בחירת אוריקי ליום שלו!" },
         { time: "ערב", type: "birthday", title: "🎉 ארוחת ערב חגיגית + עוגה", place: "לבחירת אוריקי",
           notes: "חגיגה לסיום היום — עוגה/גלידה חגיגית (למשל גלידריית Biancaneve בברדולינו) או ארוחה מיוחדת שאוריקי יבחר." },
@@ -97,7 +97,7 @@ const TRIP = {
       date: "2026-08-19", region: "dolomites", title: "אגם גארדה ← הדולומיטים",
       items: [
         { time: "08:30–10:00", type: "stay", title: "צ׳ק-אאוט — Porto Vecchio", place: "Lazise", notes: "להחזיר מפתחות לפי הוראות המארח." },
-        { time: "10:00", type: "drive", title: "נסיעה לוואל גרדנה (~2.5 ש׳)", place: "Lazise → Santa Cristina Valgardena",
+        { time: "10:00", type: "drive", pid: "valgardena", title: "נסיעה לוואל גרדנה (~2.5 ש׳)", place: "Lazise → Santa Cristina Valgardena",
           address: "Santa Cristina Valgardena BZ", notes: "עצירה מומלצת בדרך באגם קטן או עיירה אלפינית. הכבישים ההרריים מפותלים — לנהוג בנחת." },
         { time: "15:00", type: "stay", title: "צ׳ק-אין — Hotel Touring Val Gardena", place: "Via Dursan 71, Santa Cristina",
           address: "Hotel Touring Val Gardena, Via Dursan 71, Santa Cristina Valgardena", notes: "Family Suite, 4 לילות, ארוחת בוקר כלולה. יתרה לתשלום בצ׳ק-אין: €2,513.73 + מס תיירות ~€36 (במזומן). טלפון: +39 0471 793119.", confirmation: "3259471" },
@@ -106,7 +106,7 @@ const TRIP = {
     {
       date: "2026-08-20", region: "dolomites", title: "ואל גרדנה",
       items: [
-        { time: "בוקר", type: "hike", title: "רכבל ומסלול טבע קל", place: "Santa Cristina / Col Raiser",
+        { time: "בוקר", type: "hike", pid: "colraiser", title: "רכבל ומסלול טבע קל", place: "Santa Cristina / Col Raiser",
           address: "Col Raiser cable car Santa Cristina", notes: "עלייה ברכבל לרמה האלפינית, מסלול הליכה מישורי ונופים של הסלה רונדה." },
         { time: "אחה\"צ", type: "free", title: "מגרש משחקים אלפיני", place: "Val Gardena",
           notes: "אזורי המשחק ההרריים בוואל גרדנה מצוינים לילדים (פארקי הרפתקאות עם מים ומתקני עץ)." },
@@ -115,7 +115,7 @@ const TRIP = {
     {
       date: "2026-08-21", region: "dolomites", title: "Alpe di Siusi",
       items: [
-        { time: "בוקר", type: "hike", title: "אלפה די סיוזי (Seiser Alm)", place: "הרמה האלפינית הגדולה באירופה",
+        { time: "בוקר", type: "hike", pid: "alpedisiusi", title: "אלפה די סיוזי (Seiser Alm)", place: "הרמה האלפינית הגדולה באירופה",
           address: "Alpe di Siusi", notes: "עלייה ברכבל מ-Ortisei. נופים עוצרי נשימה, הליכות מישוריות, ושדות ירוקים אינסופיים." },
         { time: "צהריים", type: "food", title: "פיקניק עם נוף / בקתה אלפינית", place: "Seiser Alm",
           notes: "בקתות (Rifugio) להפסקת צהריים, או פיקניק על הדשא מול הפסגות." },
@@ -124,7 +124,7 @@ const TRIP = {
     {
       date: "2026-08-22", region: "dolomites", title: "אגם קארצה + הרפתקאות",
       items: [
-        { time: "בוקר", type: "sight", title: "אגם קארצה (Lago di Carezza)", place: "אגם הקשת",
+        { time: "בוקר", type: "sight", pid: "carezza", title: "אגם קארצה (Lago di Carezza)", place: "אגם הקשת",
           address: "Lago di Carezza", notes: "אחד האגמים היפים בדולומיטים — מים טורקיז על רקע פסגות הלאטמר. סיבוב קצר סביב האגם." },
         { time: "אחה\"צ", type: "sight", title: "Alpine Coaster / פארק חבלים / בריכה", place: "Val Gardena",
           notes: "מגלשת הרים (Alpine Coaster), פארק חבלים, או בריכת המלון לסיום היום. יום אינטנסיבי וכיפי." },
@@ -138,16 +138,16 @@ const TRIP = {
           address: "Verona Italia", notes: "ירידה מההרים חזרה לעיר." },
         { time: "", type: "stay", title: "צ׳ק-אין — דירה בורונה", place: "ורונה",
           notes: "⚠️ מתוך טיוטת המסלול — אין אישור הזמנה בתיקייה. כדאי לאמת/להזמין מראש." },
-        { time: "ערב", type: "sight", title: "העיר העתיקה + ארנה דה ורונה", place: "Piazza Bra / Arena",
+        { time: "ערב", type: "sight", pid: "arena", title: "העיר העתיקה + ארנה דה ורונה", place: "Piazza Bra / Arena",
           address: "Arena di Verona", notes: "אמפיתיאטרון רומי מהמאה ה-1, פיאצה ברה התוססת, וארוחת ערב בעיר העתיקה." },
       ],
     },
     {
       date: "2026-08-24", region: "verona", title: "ורונה",
       items: [
-        { time: "בוקר", type: "sight", title: "בית יוליה + העיר העתיקה", place: "Casa di Giulietta",
+        { time: "בוקר", type: "sight", pid: "giulietta", title: "בית יוליה + העיר העתיקה", place: "Casa di Giulietta",
           address: "Casa di Giulietta Verona", notes: "המרפסת של רומיאו ויוליה, פיאצה דלה ארבה, וטירת קסטלווקיו על הנהר." },
-        { time: "אחה\"צ", type: "free", title: "פונטה פייטרה / זמן חופשי", place: "Ponte Pietra",
+        { time: "אחה\"צ", type: "free", pid: "pontepietra", title: "פונטה פייטרה / זמן חופשי", place: "Ponte Pietra",
           notes: "גשר רומי עתיק עם נוף לעיר, קניות, וגלידה אחרונה באיטליה." },
       ],
     },
